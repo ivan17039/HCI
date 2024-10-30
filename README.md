@@ -25,7 +25,7 @@
 ### Semester Assignments
 
 - Link to Assignment 1: [**Figma essentials**](/assignments/Figma-essentials/) <!-- Replace with actual URL -->
-- Link to Assignment 2: [**Assignment 2**](URL_TO_ASSIGNMENT_2) <!-- Replace with actual URL -->
+- Link to Assignment 2: [**User personas and information architecture**](/assignments/User%20personas%20and%20information%20architecture/) <!-- Replace with actual URL -->
 - Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
 <!-- Add more assignments as necessary -->
 

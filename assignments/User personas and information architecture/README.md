@@ -22,7 +22,7 @@ The website was created to provide users with clear and relevant information abo
 ## User Personas
 
 ### User Persona 1: Local Family on vacation
-![Ivan - Persona 1](./ivan.jpg)
+<img src="./ivan.jpg" alt="Sitemap Image" width="300"/>
 
 **Demographic data**
 - Name: Ivan
@@ -42,7 +42,7 @@ The website was created to provide users with clear and relevant information abo
 ---
 
 ### User Persona 2: Young Couple from EU
-![Marie - Persona 2](./marie.jpg)
+<img src="./marie.jpg" alt="Sitemap Image" width="300"/>
 
 **Demographic data**
 - Name: Marie
@@ -62,7 +62,7 @@ The website was created to provide users with clear and relevant information abo
 ---
 
 ### User Persona 3: Business Traveler
-![Robert - Persona 3](./robert.jpg)
+<img src="./robert.jpg" alt="Sitemap Image" width="300"/>
 
 **Demographic data**
 - Name: Robert
@@ -126,7 +126,7 @@ You can view the full sitemap and structure via the link below:
 
 [Click here to view the complete sitemap on Octopus.do](https://octopus.do/bubz76ow3s)
 
-![Sitemap](./sitemap.jpg)
+<img src="./sitemap.jpg" alt="Sitemap Image" width="500"/>
 
 ---
 

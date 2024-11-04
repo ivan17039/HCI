@@ -41,23 +41,24 @@ The website was created to provide users with clear and relevant information abo
 
 ---
 
-### User Persona 2: Young Couple from EU
-<img src="./marie.jpg" alt="Sitemap Image" width="300"/>
+### User Persona 2: Elderly Retired Couple
+<img src="./ana&marko.webp" alt="Sitemap Image" width="300"/>
 
 **Demographic data**
-- Name: Marie
-- Age: 28
-- Occupation: Marketing specialist
-- Education: Master's degree
+- Names: Ana and Marko
+- Age: 68 and 71
+- Occupations: Former nurse and physics professor
+- Education: High school and university degree
+- Goals and Motivation
 
 **Goals and Motivation**
-- Marie wants a romantic getaway with her partner, close to restaurants and cultural locations in Croatia.
+- Ana and Marko are looking for a quiet environment with easy access to recreational facilities and health facilities.
 
 **Challenges and Frustrations**
-- She needs flexibility when making reservations and clear information about benefits.
+- They have limited options because it is important for them that the accommodation is suitable for people with reduced mobility.
 
 **Personality and Preferences**
-- Enjoys discovering new destinations and appreciates visually attractive and functional applications.
+- They prefer accommodation in quiet neighborhoods, close to nature and cultural attractions.
 
 ---
 

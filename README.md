@@ -18,7 +18,7 @@
 
 ### Semester Project
 
-- Link to your production version: [**Production Version**](URL_TO_PRODUCTION_VERSION) <!-- Replace with actual URL -->
+- Link to your production version: [**Production Version**](https://hci-zj6c.vercel.app/) <!-- Replace with actual URL -->
 - Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
 <!-- Add more as necessary -->
 
@@ -26,7 +26,7 @@
 
 - Link to Assignment 1: [**Figma essentials**](/assignments/Figma-essentials/) <!-- Replace with actual URL -->
 - Link to Assignment 2: [**User personas and information architecture**](/assignments/User%20personas%20and%20information%20architecture/) <!-- Replace with actual URL -->
-- Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
+- Link to Assignment 3: [**Next.js - Deploying Application**](https://hci-zj6c.vercel.app/) <!-- Replace with actual URL -->
 <!-- Add more assignments as necessary -->
 
 ## Project Requirements

@@ -146,7 +146,6 @@ We used ChatGPT to create user personas and information architecture. The prompt
 2. **For information architecture and sitemap**: "Create information architecture and sitemap for the apartment website based on user needs."
 
 
-
 ## Conclusion
 This documentation describes in detail the user personas, information architecture and sitemap used in the design of the apartment site. </br>
 The structure is adapted to the needs of the user in order to make the navigation intuitive and the user experience as pleasant as possible.

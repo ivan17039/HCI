@@ -3,21 +3,50 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #f5f5f5; /* Svijetlo siva za dnevni način rada */
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #1a1a1a; /* Tamno siva za noćni način rada */
     --foreground: #ededed;
   }
 }
 
+
 body {
+  @apply bg-background text-foreground font-sans leading-relaxed;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3 {
+  @apply text-primary font-bold ;
+}
+
+a {
+  @apply text-primary hover:text-accent transition duration-300 ease-in-out;
+}
+
+button {
+  @apply bg-primary text-white font-semibold py-2 px-4 rounded shadow hover:bg-accent transition duration-300 ease-in-out;
+}
+
+.container {
+  @apply mx-auto px-4 py-8 max-w-7xl;
+}
+
+.card {
+  @apply bg-gray-500 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105;
+}
+
+.card:hover {
+  @apply shadow-xl;
+}
+
+.footer {
+  @apply bg-background text-foreground py-4 text-center;
 }
 
 @layer utilities {

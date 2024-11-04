@@ -11,9 +11,12 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: '#40E0D0',  // Tirkizna boja
+        accent: '#FFD700',   // Zlatna boja
       },
     },
   },
   plugins: [],
 };
+
 export default config;

@@ -1,6 +1,5 @@
 # User personas and information architecture
 
----
 ## Contents
 1. [Introduction](#introduction)
 2. [User Personas](#user-personas)
@@ -13,16 +12,18 @@
 ---
 
 ## Introduction
-Welcome to the documentation for the apartment website. This site is designed to display key information about the apartments, simplify booking for users, and present different types of guests for whom the accommodation is ideal.
-The website was created to provide users with clear and relevant information about apartments, including photos, price lists, amenities and user reviews. The goal is to enable a personalized experience, with ease of navigation and pleasant design, for three main user groups.
-
+Welcome to the documentation for the apartment website.
+This site is designed to display key information about the apartments, simplify booking for users, and present different types of guests for whom the accommodation is ideal.
+The website was created to provide users with clear and relevant information about apartments, including photos, price lists, amenities and user reviews.
+The goal is to enable a personalized experience, with ease of navigation and pleasant design, for three main user groups.
+Registered users gain access to additional features such as tracking their reservations and receiving exclusive offers.
 
 ---
 
 ## User Personas
 
 ### User Persona 1: Local Family on vacation
-<img src="./ivan.jpg" alt="Sitemap Image" width="300"/>
+<img src="./ivan.jpg" alt="Local Family Persona Image" width="300"/>
 
 **Demographic data**
 - Name: Ivan
@@ -42,7 +43,7 @@ The website was created to provide users with clear and relevant information abo
 ---
 
 ### User Persona 2: Elderly Retired Couple
-<img src="./ana&marko.webp" alt="Sitemap Image" width="300"/>
+<img src="./ana&marko.webp" alt="Elderly Retired Couple Persona Image" width="300"/>
 
 **Demographic data**
 - Names: Ana and Marko
@@ -63,7 +64,7 @@ The website was created to provide users with clear and relevant information abo
 ---
 
 ### User Persona 3: Business Traveler
-<img src="./robert.jpg" alt="Sitemap Image" width="300"/>
+<img src="./robert.jpg" alt="Business Traveler Persona Image" width="300"/>
 
 **Demographic data**
 - Name: Robert
@@ -80,7 +81,7 @@ The website was created to provide users with clear and relevant information abo
 **Personality and Preferences**
 - Organized and professional, appreciates the details and functionality of the application.
 
----
+
 
 ## Information Architecture
 The information architecture was created to make it easier for users to navigate through the website and to enable them to easily find the information they need. This structure is based on user needs, identified through user personas.
@@ -114,7 +115,15 @@ The information architecture was created to make it easier for users to navigate
     - Frequently Asked Questions (FAQ)
     - Emergency and customer service numbers
     - Links to social networks
----
+7. **Login** 
+    - User login to access additional features
+    - Option to create a new account or reset password
+8. **My Reservations** (Private) 
+    - Personalized booking overview and history
+    - Option to view, modify, or cancel existing reservations
+    - Access to limited-time promotions and discounts
+    - Special information and early access to bookings
+    
 
 ## Sitemap
 The sitemap for this website was designed to provide an intuitive and user-friendly structure that makes navigation simple and efficient. 
@@ -129,7 +138,6 @@ You can view the full sitemap and structure via the link below:
 
 <img src="./sitemap.jpg" alt="Sitemap Image" width="500"/>
 
----
 
 ## Prompts for Generation
 We used ChatGPT to create user personas and information architecture. The prompts used are:
@@ -137,9 +145,8 @@ We used ChatGPT to create user personas and information architecture. The prompt
 1. **To create personae**: "Generate user personas for an apartment website with three types of guests: local family, young EU couple and business traveler."
 2. **For information architecture and sitemap**: "Create information architecture and sitemap for the apartment website based on user needs."
 
----
+
 
 ## Conclusion
-This documentation describes in detail the user personas, information architecture and sitemap used in the design of the apartment site. The structure is adapted to the needs of the user in order to make the navigation intuitive and the user experience as pleasant as possible.
-
----
+This documentation describes in detail the user personas, information architecture and sitemap used in the design of the apartment site. </br>
+The structure is adapted to the needs of the user in order to make the navigation intuitive and the user experience as pleasant as possible.

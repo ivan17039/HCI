@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from 'next/image';
 export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-800">
@@ -52,11 +52,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Apartment 1 */}
           <div className="bg-white shadow rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
-            <img
-              src="./img/apartment1.jpg"
-              alt="Apartment 1"
-              className="w-full h-48 object-cover"
-            />
+          <Image
+            src="/img/apartment1.jpg"
+            alt="Apartment 1"
+            className="w-full h-48 object-cover"
+            width={400}
+            height={300}
+          />
             <div className="p-4">
               <h3 className="text-xl font-semibold text-gray-800">Sea Breeze Apartment</h3>
               <p className="text-gray-600 text-sm mt-2">
@@ -71,10 +73,12 @@ export default function Home() {
 
           {/* Apartment 2 */}
           <div className="bg-white shadow rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
-            <img
-              src="./img/apartment2.jpg"
+            <Image
+              src="/img/apartment2.jpg"
               alt="Apartment 2"
               className="w-full h-48 object-cover object-bottom"
+              width={400}
+              height={300}
             />
             <div className="p-4">
               <h3 className="text-xl font-semibold text-gray-800">Sunrise Retreat</h3>
@@ -107,34 +111,42 @@ export default function Home() {
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* Single Amenity */}
               <li className="flex flex-col items-center">
-                <img
-                  src="./icons/ac.png"
+                <Image
+                  src="/icons/ac.png"
                   alt="Air Conditioning"
                   className="w-12 h-12 mb-2"
+                  width={400}
+                  height={300}
                 />
                 <span className="text-lg font-medium text-white">Air Conditioning</span>
               </li>
               <li className="flex flex-col items-center">
-                <img
-                  src="./icons/parking.png"
+                <Image
+                  src="/icons/parking.png"
                   alt="Parking"
                   className="w-12 h-12 mb-2"
+                  width={400}
+                  height={300}
                 />
                 <span className="text-lg font-medium text-white">Parking</span>
               </li>
               <li className="flex flex-col items-center">
-                <img
-                  src="./icons/wifi.png"
+                <Image
+                  src="/icons/wifi.png"
                   alt="Free Wi-Fi"
                   className="w-12 h-12 mb-2"
+                  width={400}
+                  height={300}
                 />
                 <span className="text-lg font-medium text-white">Free Wi-Fi</span>
               </li>
               <li className="flex flex-col items-center">
-                <img
-                  src="./icons/pets.png"
+                <Image
+                  src="/icons/pets.png"
                   alt="Pets Allowed"
                   className="w-12 h-12 mb-2"
+                  width={400}
+                  height={300}
                 />
                 <span className="text-lg font-medium text-white">Pets Allowed</span>
               </li>
@@ -150,10 +162,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Persona 1 */}
             <div className="bg-white p-4 rounded shadow flex flex-col items-center">
-              <img
-                src="./img/ivan.jpg"
+              <Image
+                src="/img/ivan.jpg"
                 alt="Ivan"
                 className="w-20 h-20 object-cover rounded-full mb-4"
+                width={400}
+                height={300}
               />
               <h3 className="text-lg font-bold">Ivan</h3>
               <p className="text-gray-600">
@@ -163,10 +177,12 @@ export default function Home() {
             </div>
             {/* Persona 2 */}
             <div className="bg-white p-4 rounded shadow flex flex-col items-center">
-              <img
-                src="./img/ana&marko.webp"
+              <Image
+                src="/img/ana&marko.webp"
                 alt="Ana & Marko"
                 className="w-20 h-20 object-cover rounded-full mb-4"
+                width={400}
+                height={300}
               />
               <h3 className="text-lg font-bold">Ana & Marko</h3>
               <p className="text-gray-600">
@@ -176,10 +192,12 @@ export default function Home() {
             </div>
             {/* Persona 3 */}
             <div className="bg-white p-4 rounded shadow flex flex-col items-center">
-              <img
-                src="./img/robert.jpg"
+              <Image
+                src="/img/robert.jpg"
                 alt="Robert"
                 className="w-20 h-20 object-cover rounded-full mb-4"
+                width={400}
+                height={300}
               />
               <h3 className="text-lg font-bold">Robert</h3>
               <p className="text-gray-600">

@@ -171,8 +171,8 @@ export default function Home() {
               />
               <h3 className="text-lg font-bold">Ivan</h3>
               <p className="text-gray-600">
-                "Accommodation suitable for families, close to nature or the
-                beach. Relaxing vacation!"
+                &quot;Accommodation suitable for families, close to nature or the
+                beach. Relaxing vacation!&quot;
               </p>
             </div>
             {/* Persona 2 */}
@@ -186,8 +186,8 @@ export default function Home() {
               />
               <h3 className="text-lg font-bold">Ana & Marko</h3>
               <p className="text-gray-600">
-                "Quiet environment with easy access to recreational and health
-                facilities."
+                &quot;Quiet environment with easy access to recreational and health
+                facilities.&quot;
               </p>
             </div>
             {/* Persona 3 */}
@@ -201,8 +201,8 @@ export default function Home() {
               />
               <h3 className="text-lg font-bold">Robert</h3>
               <p className="text-gray-600">
-                "Quiet space with reliable Wi-Fi and workspace for business
-                stays."
+                &quot;Quiet space with reliable Wi-Fi and workspace for business
+                stays.&quot;
               </p>
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function Home() {
       {/* CTA SECTION */}
       <section className="bg-accent text-white text-center py-16 px-6">
         <h2 className="text-4xl text-white font-bold mb-4">Ready to Book?</h2>
-        <p className="text-lg mb-6">Don't wait, book your dream apartment today!</p>
+        <p className="text-lg mb-6">Don&apos;t wait, book your dream apartment today!</p>
         <Link href="/booking">
             <button
               aria-label="Book your apartment now"

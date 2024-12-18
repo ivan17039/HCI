@@ -9,7 +9,6 @@ type Page = {
 };
 
 const pages: Page[] = [
-  
   {
     title: "Amenities",
     path: "/apartments/amenities",
@@ -31,11 +30,11 @@ function processPage(page: Page, index: number, pathname: string) {
       : pathname.startsWith(page.path);
 
   return (
-    
-    <button key={index} className=" rounded-lg shadow-lg subNavbutton">
-      <Link
-        href={page.path}
-      >
+    <button
+      key={index}
+      className={`rounded-lg shadow-lg subNavbutton ${isActive ? "active-class" : ""}`}
+    >
+      <Link href={page.path}>
         {page.title}
       </Link>
     </button>
@@ -45,12 +44,11 @@ function processPage(page: Page, index: number, pathname: string) {
 export function Navigation() {
   const pathname = usePathname();
   return (
-    <div className="">
-    <h2 className="text-3xl font-bold text-black flex justify-center py-10">Explore More</h2>
+    <div>
+      <h2 className="text-3xl font-bold text-black flex justify-center py-10">Explore More</h2>
       <ul className="flex justify-center space-x-4 py-5">
         {pages.map((page, index) => processPage(page, index, pathname))}
       </ul>
     </div>
   );
 }
-

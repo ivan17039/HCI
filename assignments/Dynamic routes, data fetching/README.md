@@ -24,6 +24,8 @@ Apartment data is stored locally in a JSON file, which simulates retrieving data
 
 ## 📂  Project Structure
 
+- Link to this assignment implementation: [**Dynamic routes, data fetching**](/source/src/app/apartments/) 
+
 ```plaintext
 apartments/
 │

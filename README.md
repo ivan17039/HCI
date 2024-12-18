@@ -28,6 +28,7 @@
 - Link to Assignment 2: [**User personas and information architecture**](/assignments/User%20personas%20and%20information%20architecture/) <!-- Replace with actual URL -->
 - Link to Assignment 3: [**Next.js - Deploying Application**](https://hci-zj6c.vercel.app/) <!-- Replace with actual URL -->
 - Link to Assignment 4: [**Low/High-fidelity prototype**](/assignments/Low&High-fidelity%20prototype/) 
+- Link to Assignment 5: [**Dynamic routes, data fetching**](/assignments/Dynamic%20routes,%20data%20fetching/) 
 <!-- Add more assignments as necessary -->
 
 ## Project Requirements

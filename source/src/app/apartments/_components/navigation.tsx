@@ -30,14 +30,16 @@ function processPage(page: Page, index: number, pathname: string) {
       : pathname.startsWith(page.path);
 
   return (
+    <Link href={page.path}>
     <button
       key={index}
       className={`rounded-lg shadow-lg subNavbutton ${isActive ? "active-class" : ""}`}
     >
-      <Link href={page.path}>
+      
         {page.title}
-      </Link>
+      
     </button>
+    </Link>
   );
 }
 

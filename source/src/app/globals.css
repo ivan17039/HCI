@@ -14,6 +14,7 @@
     --foreground: #ededed;
   }
 }
+
 @layer components {
   .nav-link {
     @apply text-primary relative transition-all duration-300 ease-in-out font-bold;
@@ -38,13 +39,9 @@
 
 }
 
-
-
 p, li {
   font-family: "Roboto", sans-serif;
-  
 }
-
 
 body {
   @apply bg-background text-foreground font-sans leading-relaxed;
@@ -54,7 +51,7 @@ body {
 
 h1, h2, h3 {
   font-family: "Montserrat", sans-serif;
-  @apply text-primary font-bold ;
+  @apply text-primary font-bold;
 }
 
 a {
@@ -64,16 +61,22 @@ a {
 button {
   @apply bg-primary text-white font-semibold py-2 px-4 rounded shadow hover:bg-accent transition duration-300 ease-in-out;
 }
-
+.subNavbutton {
+  @apply  font-semibold py-2 px-4 text-lg rounded-md transition hover:scale-105 ;
+}
+.subNavbutton:hover a {
+  @apply  text-white ;
+}
+.subNavbutton a {
+  @apply  text-white ;
+}
 .container {
   @apply mx-auto px-4 py-8 max-w-7xl;
 }
 
 .card {
   @apply bg-gray-200 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105;
-  
 }
-
 
 .card:hover {
   @apply shadow-xl;
@@ -88,4 +91,3 @@ button {
     text-wrap: balance;
   }
 }
-

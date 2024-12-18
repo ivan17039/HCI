@@ -34,17 +34,17 @@ const sitemapLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-gray-800 py-6">
+    <footer className="bg-primary py-6">
 
     {/* Logo at the top */}
     <div className="text-center mb-6">
-        <Logo color="text-white" />
+        <Logo color="text-white text-3xl" />
     </div>
 
     <div className="container flex justify-between font-lato">
         {/* Left Section: Contact Us */}
         <div className="text-white">
-            <h3 className="text-xl font-semibold text-blue-400">Contact Us</h3>
+            <h3 className="text-xl font-semibold text-gray-900">Contact Us</h3>
             <div className="mt-2 space-y-1">
             {contactDetails.address.map((line, index) => (
                 <p key={index}>{line}</p>
@@ -77,7 +77,7 @@ export function Footer() {
 
         {/* Right Section: Sitemap */}
         <div className="space-y-2 text-right">
-        <h3 className="text-xl font-semibold text-primary">Sitemap</h3>
+        <h3 className="text-xl font-semibold text-gray-900">Sitemap</h3>
             <ul  className="space-y-1 mt-2 ">
             {sitemapLinks.map(({ name, href }, index) => (
                 <li key={index}>
@@ -91,7 +91,7 @@ export function Footer() {
     </div>
 
     {/* Footer Bottom Section */}
-    <div className="text-center mt-6 text-gray-400">
+    <div className="text-center mt-6 text-gray-900">
     <p>&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
     </div>
 </footer>

@@ -8,7 +8,6 @@ type Page = {
   path: `/${string}`;
 };
 
-// We hardcode pages here, but you could get this information from some external source (e.g. CMS, DB, config file, etc).
 const pages: Page[] = [
   
   {
@@ -26,31 +25,32 @@ const pages: Page[] = [
 ];
 
 function processPage(page: Page, index: number, pathname: string) {
+  const isActive =
+    page.path === "/"
+      ? pathname === page.path
+      : pathname.startsWith(page.path);
+
   return (
-    <li key={index}>
+    
+    <button key={index} className=" rounded-lg shadow-lg subNavbutton">
       <Link
         href={page.path}
-        className={
-          page.path === "/"
-            ? pathname === page.path
-              ? "font-extrabold text-accent"
-              : "text-primary"
-            : pathname.startsWith(page.path)
-            ? "font-extrabold text-accent"
-            : "text-primary"
-        }
       >
         {page.title}
       </Link>
-    </li>
+    </button>
   );
 }
 
 export function Navigation() {
   const pathname = usePathname();
   return (
-    <ul className="flex justify-center space-x-4 mt-8">
-      {pages.map((page, index) => processPage(page, index, pathname))}
-    </ul>
+    <div className="">
+    <h2 className="text-3xl font-bold text-black flex justify-center py-10">Explore More</h2>
+      <ul className="flex justify-center space-x-4 py-5">
+        {pages.map((page, index) => processPage(page, index, pathname))}
+      </ul>
+    </div>
   );
 }
+

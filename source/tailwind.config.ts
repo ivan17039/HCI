@@ -12,12 +12,12 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "rgb(96 165 250)", // Tirkizna boja
-        accent: "#FFB84D",  // Zlatna boja
+        primary: "#6C6EBA", // Olive
+        accent: "#BAB86C",  //  Complementary boja
         logoblue: "#282A9B", // Tamno plava boja loga
       },
       screens: {
-        customLg: '1150px', // Dodavanje prilagođenog breakpointa
+        customLg: '1235px', // Dodavanje prilagođenog breakpointa
       },
     },
   },
@@ -25,7 +25,7 @@ const config: Config = {
     plugin(function ({ addUtilities }) {
       addUtilities({
         ".text-red-border": {
-          WebkitTextStroke: "2px #D2042D", // Crveni obrub debljine 2px
+          WebkitTextStroke: "2px #FFCCDC", // Crveni obrub debljine 2px
           color: "white", // Boja slova
           textShadow: "1px 2px 10px #D2042D, 1.5px 1.5px 1px #D2042D", // Crvena sjena s obje strane
         },
@@ -33,7 +33,7 @@ const config: Config = {
           textShadow: "2px 2px 4px #20B2AA", // Tirkizna sjena
         },
         ".text-stroke-black": {
-          WebkitTextStroke: "0.5px black", // Obrub u crnoj boji
+          WebkitTextStroke: "0.5px gray", // Obrub u crnoj boji
           color: "white", // Osnovna boja slova
         },
       });

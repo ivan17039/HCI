@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from 'next/image';
+import {apartments} from "./apartments/data/apartments";
 export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-800">
@@ -7,15 +8,21 @@ export default function Home() {
       {/* Hero Section */}
       <section
         className="relative h-screen w-full flex items-center bg-cover bg-center"
-        style={{ backgroundImage: `url('/img/hero5.png')` }}
+
       >
+        <div
+          className="absolute inset-0 transform scale-x-[-1]"
+          style={{ backgroundImage: `url('/img/Hero/hero5.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        >
+          
+        </div>
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
 
         {/* Content */}
-        <div className="relative  mt-5 z-10 flex flex-col customLg:flex-row-reverse items-center justify-between w-full max-w-13 mx-auto px-6 md:px-14">
+        <div className="relative z-10 flex flex-col customLg:flex-row items-center justify-between w-full max-w-13 mx-auto px-6 md:px-14">
           {/* Text box */}
-          <div className="bg-white/80 customLg:mr-4  p-8 customLg:p-8 rounded-lg customLg:w-1/3  text-left shadow-lg mx-auto max-w-[400px]">
+          <div className="bg-white/75 customLg:mr-4 p-8 customLg:p-8 rounded-none customLg:w-1/3 shadow-md text-left mx-auto max-w-[400px] customLg:ml-4 customLg:mt-20">
             <h1 className="text-3xl customLg:text-5xl font-extrabold text-black leading-tight text-center customLg:text-left">
               Stay By<br /> <span className="text-primary font-bold">The Sea,</span> <br />
               Relax In <br /><span className="text-accent font-bold">Comfort</span>
@@ -29,7 +36,7 @@ export default function Home() {
               <Link href="/booking">
                 <button
                   aria-label="Book your apartment now"
-                  className="text-lg customLg:text-xl border-2 border-primary bg-primary text-white font-semibold py-3 px-10 shadow-lg hover:bg-white hover:border-accent hover:text-accent transition transform hover:scale-105 rounded-full"
+                  className="text-lg customLg:text-xl border-2 border-primary bg-primary text-white font-semibold py-3 px-10 shadow-lg hover:bg-white hover:border-accent hover:text-accent transition transform hover:scale-105 rounded-none"
                 >
                   Book Now
                 </button>
@@ -50,48 +57,33 @@ export default function Home() {
           Choose the perfect stay for your vacation.
         </p>
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Apartment 1 */}
-          <div className="bg-white shadow rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
-          <Image
-            src="/img/apartment1.jpg"
-            alt="Apartment 1"
-            className="w-full h-48 object-cover"
-            width={400}
-            height={300}
-          />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Sea Breeze Apartment</h3>
-              <p className="text-gray-600 text-sm mt-2">
-                Cozy apartment with sea views, perfect for couples or small families.
-              </p>
-              <p className="text-accent font-bold mt-4">€70/night</p>
-              <button className="shadow-mg bg-primary mt-4 bg-turquoise text-white font-semibold py-2 px-4 rounded hover:bg-turquoise-dark">
-                View Details
-              </button>
-            </div>
-          </div>
+          {apartments.map((apartment) => (
+            <div
+              key={apartment.id}
+              className="bg-white shadow rounded-lg overflow-hidden transform transition duration-300 hover:scale-105"
+            >
+              <Image
+                src={apartment.images[0].src}  // Prva slika iz niza
+                alt={apartment.images[0].alt}  // Alt tekst prve slike
+                className="w-full h-48 object-cover"
+                width={400}
+                height={300}
+              />
 
-          {/* Apartment 2 */}
-          <div className="bg-white shadow rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
-            <Image
-              src="/img/apartment2.jpg"
-              alt="Apartment 2"
-              className="w-full h-48 object-cover object-bottom"
-              width={400}
-              height={300}
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Sunrise Retreat</h3>
-              <p className="text-gray-600 text-sm mt-2">
-                Spacious apartment with modern amenities and breathtaking views.
-              </p>
-              <p className="text-accent font-bold mt-4">€85/night</p>
-              <button className="shadow-mg bg-primary mt-4 bg-turquoise text-white font-semibold py-2 px-4 rounded hover:bg-turquoise-dark">
-                View Details
-              </button>
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800">{apartment.name}</h3>
+                <p className="text-gray-600 text-sm mt-2">{apartment.description}</p>
+                <p className="text-accent font-bold mt-4">€{apartment.price}/night</p>
+                <Link href={`/apartments/${apartment.id}`}>
+                  <button className="shadow-mg bg-primary mt-4 bg-turquoise text-white font-semibold py-2 px-4 rounded hover:bg-turquoise-dark">
+                    View Details
+                  </button>
+                </Link>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
+      
         {/* CTA unutar sekcije */}
         <div className="mt-8 flex justify-center">
           <Link href="/apartments">

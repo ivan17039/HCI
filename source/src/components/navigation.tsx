@@ -73,7 +73,7 @@ export function Navigation() {
       <Link href="/" onClick={closeMenu} className="flex items-center">
         {/* Uvjetno renderiranje table */}
         {!hasScrolled ? (
-          <div className="bg-white/80 border-4 border-primary shadow-lg rounded-xl px-6 py-4 relative">
+          <div className="bg-white/80 border-4 border-primary shadow-lg rounded-xl px-1 py-4 relative">
             <Logo color="text-logoblue font-bold text-3xl" />
           </div>
         ) : (
@@ -155,13 +155,15 @@ export function Navigation() {
           <ul className="absolute top-0 right-0 w-full bg-blue-50 shadow-lg p-4 space-y-4 customLg:hidden border-2 border-gray-300 rounded-lg text-center">
             <div className="pb-2 border-b border-gray-300 flex justify-between items-center">
               <div className="flex justify-center w-full ml-10">
-                <Logo color="text-white font-bold" />
+                <Link href='/' onClick={closeMenu}>
+                  <Logo color="text-logoblue font-bold" />
+                </Link>
               </div>
             </div>
 
             {pages.map((page, index) => (
               <li key={index}>
-                <Link
+                <Link onClick={closeMenu}
                   href={page.path}
                   className={`nav-link ${pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
                 >
@@ -171,7 +173,7 @@ export function Navigation() {
             ))}
             {isLoggedIn && privatePages.map((page, index) => (
               <li key={index}>
-                <Link
+                <Link onClick={closeMenu}
                   href={page.path}
                   className={`nav-link ${pathname.startsWith(page.path) ? "text-accent" : ""}`}
                 >

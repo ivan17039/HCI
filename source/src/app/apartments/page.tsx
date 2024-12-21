@@ -155,7 +155,7 @@ export default function ApartmentsPage() {
                 Experience a relaxing stay with modern amenities and stunning views of the Adriatic Sea.
               </p>
               <div className="flex justify-start">
-                <Link href="/about">
+                <Link href="/about-us">
                   <button className="px-6 py-3 text-lg font-semibold border-primary text-white border-2 hover:border-primary bg-primary hover:bg-white hover:text-primary rounded-lg shadow-lg transition transform hover:scale-105">
                     Learn More About Us
                   </button>

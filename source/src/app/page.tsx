@@ -1,57 +1,50 @@
+'use client'
 import Link from "next/link";
 import Image from 'next/image';
 import {apartments} from "./apartments/data/apartments";
+import BookingForm from "@/app/booking/_components/booking-form";
 export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-800">
       
       {/* Hero Section */}
-      <section
-        className="relative h-screen w-full flex items-center bg-cover bg-center"
+      <section className="relative min-h-screen w-full flex items-center bg-cover bg-center">
+      <div className="absolute inset-0 transform scale-x-[-1]" 
+      style={{ backgroundImage: `url('/img/Hero/hero5.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      </div>
+      <div className="absolute inset-0 bg-black/40"></div>
 
-      >
-        <div
-          className="absolute inset-0 transform scale-x-[-1]"
-          style={{ backgroundImage: `url('/img/Hero/hero5.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-        >
+      <div className="gap-5 relative z-10 flex flex-col customLg:flex-row items-stretch justify-between w-full max-w-7xl mx-auto px-6 md:px-14 py-24">
+        <div className="bg-white/75 p-8 rounded-none customLg:w-1/2 shadow-md text-left mx-auto max-w-[500px] mb-10 customLg:mb-0">
+          <h1 className="text-3xl customLg:text-5xl font-extrabold text-black leading-tight text-center customLg:text-left">
+            Stay By<br /> <span className="text-primary font-bold">The Sea,</span> <br />
+            Relax In <br /><span className="text-accent font-bold">Comfort</span>
+          </h1>
+          <p className="mt-6 text-lg customLg:text-xl text-gray-800 font-medium text-center customLg:text-left">
+            Affordable Beachside Apartments with Stunning Views and Unmatched Comfort.
+          </p>
           
-        </div>
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/40"></div>
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col customLg:flex-row items-center justify-between w-full max-w-13 mx-auto px-6 md:px-14">
-          {/* Text box */}
-          <div className="bg-white/75 customLg:mr-4 p-8 customLg:p-8 rounded-none customLg:w-1/3 shadow-md text-left mx-auto max-w-[400px] customLg:ml-4 customLg:mt-20">
-            <h1 className="text-3xl customLg:text-5xl font-extrabold text-black leading-tight text-center customLg:text-left">
-              Stay By<br /> <span className="text-primary font-bold">The Sea,</span> <br />
-              Relax In <br /><span className="text-accent font-bold">Comfort</span>
-            </h1>
-            <p className="mt-6 text-lg customLg:text-xl text-gray-800 font-medium text-center customLg:text-left">
-              Affordable Beachside Apartments with Stunning Views and Unmatched Comfort.
-            </p>
-            
-            {/* Centered button */}
-            <div className="flex justify-center mt-8">
-              <Link href="/booking">
-                <button
-                  aria-label="Book your apartment now"
-                  className="text-lg customLg:text-xl border-2 border-primary bg-primary text-white font-semibold py-3 px-10 shadow-lg hover:bg-white hover:border-accent hover:text-accent transition transform hover:scale-105 rounded-none"
-                >
-                  Book Now
-                </button>
-              </Link>
-            </div>
+          <div className="flex justify-center customLg:justify-start mt-8">
+            <Link href="/booking">
+              <button
+                aria-label="Book your apartment now"
+                className="text-lg customLg:text-xl border-2 border-primary bg-primary text-white font-semibold py-3 px-10 shadow-lg hover:bg-white hover:border-accent hover:text-accent transition transform hover:scale-105 rounded-none"
+              >
+                Book Now
+              </button>
+            </Link>
           </div>
-
-          {/* Spacer (optional, for balance) */}
-          <div className="hidden customLg:block customLg:w-1/2"></div>
         </div>
-      </section>
-
+          
+        <div className="customLg:w-1/2 flex items-end justify-center customLg:justify-end">
+          <BookingForm />
+        </div>
+      </div>
+    </section>
+      
 
       {/* All Apartments */}
-      <section className="bg-white py-16 px-6">
+      <section className="bg-white py-32 px-6">
         <h2 className="text-4xl font-bold text-gray-800 text-center mb-4">Our Apartments</h2>
         <p className="text-lg text-gray-600 text-center mb-8">
           Choose the perfect stay for your vacation.

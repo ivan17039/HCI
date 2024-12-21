@@ -25,7 +25,7 @@ export default function CancellationPolicyPage() {
               <li>Log into your account</li>
               <li>Go to your bookings</li>
               <li>Select the booking you wish to cancel</li>
-              <li>Click the "Cancel Booking" button</li>
+              <li>Click the &quot;Cancel Booking&quot; button</li>
             </ol>
           </section>
         </div>

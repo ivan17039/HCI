@@ -1,5 +1,5 @@
 'use client'
-
+import Image from 'next/image'
 interface ReservationSummaryProps {
   startDate?: string
   endDate?: string
@@ -34,10 +34,12 @@ export function ReservationSummary({
       {selectedRoom && (
         <div className="mb-6">
           <div className="flex items-center gap-3">
-            <img
+            <Image
               src={selectedRoom.image}
               alt={selectedRoom.name}
               className="w-20 h-20 rounded-md object-cover"
+              width={`400`}
+              height={`300`}
             />
             <div>
               <h3 className="font-semibold">{selectedRoom.name}</h3>

@@ -1,5 +1,4 @@
 'use client'
-
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { ReservationSummary } from '../_components/reservation-summary'
@@ -134,4 +133,3 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
     </div>
   )
 }
-

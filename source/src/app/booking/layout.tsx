@@ -1,10 +1,11 @@
 'use client'
 
-import { Navigation } from "./_components/navigation"
-import { StepsNav } from "./_components/steps-nav"
-import { usePathname } from "next/navigation"
+import dynamic from 'next/dynamic'
+import { Navigation } from './_components/navigation'
+import { StepsNav } from './_components/steps-nav'
+import { usePathname } from 'next/navigation'
 
-export default function BookingLayout({
+function BookingLayout({
   children,
 }: {
   children: React.ReactNode
@@ -25,3 +26,4 @@ export default function BookingLayout({
   )
 }
 
+export default dynamic(() => Promise.resolve(BookingLayout), { ssr: false })

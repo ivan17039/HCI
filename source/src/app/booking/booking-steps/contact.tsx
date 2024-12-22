@@ -17,7 +17,7 @@ export default function ContactPage({
 
   const selectedRoom = selectedRoomId 
     ? apartments.find(apt => String(apt.id) === selectedRoomId)
-    : console.log('Didnt find!')
+    : undefined
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

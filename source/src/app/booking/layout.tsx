@@ -1,11 +1,11 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { Navigation } from './_components/navigation'
 import { StepsNav } from './_components/steps-nav'
 import { usePathname } from 'next/navigation'
+import { Suspense } from 'react';
 
-function BookingLayout({
+export default function BookingLayout({
   children,
 }: {
   children: React.ReactNode
@@ -18,12 +18,12 @@ function BookingLayout({
     !pathname.includes('/pricing')
 
   return (
-    <section className="mt-20">
-      {isBookingFlow && <StepsNav />}
-      {children}
-      <Navigation />
-    </section>
+    <Suspense fallback={<div>Loading...</div>}>
+      <section className="mt-20">
+        {isBookingFlow && <StepsNav />}
+        {children}
+        <Navigation />
+      </section>
+    </Suspense>
   )
 }
-
-export default dynamic(() => Promise.resolve(BookingLayout), { ssr: false })

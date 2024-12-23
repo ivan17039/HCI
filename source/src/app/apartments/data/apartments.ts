@@ -33,4 +33,3 @@ export const apartments: Apartment[] = [
     images: images2,
   }
 ];
-

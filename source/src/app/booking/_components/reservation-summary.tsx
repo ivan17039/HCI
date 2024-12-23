@@ -9,13 +9,19 @@ interface ReservationSummaryProps {
     price: number
     image: string
   }
+  contactInfo?: {
+    name: string;
+    email: string;
+    phone: string;
+  };
 }
 
 export function ReservationSummary({ 
   startDate, 
   endDate, 
   guests, 
-  selectedRoom 
+  selectedRoom,
+  contactInfo,
 }: ReservationSummaryProps) {
   const calculateNights = () => {
     if (!startDate || !endDate) return 0
@@ -91,7 +97,16 @@ export function ReservationSummary({
             </div>
           </>
         )}
+        
       </div>
+      {contactInfo && (
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
+          <p><strong>Name:</strong> {contactInfo.name}</p>
+          <p><strong>Email:</strong> {contactInfo.email}</p>
+          <p><strong>Phone:</strong> {contactInfo.phone}</p>
+        </div>
+      )}
     </div>
   )
 }

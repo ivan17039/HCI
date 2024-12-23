@@ -1,39 +1,48 @@
 'use client'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { ReservationSummary } from '../_components/reservation-summary'
-import { apartments } from '@/app/apartments/data/apartments'
+
+import { useRouter } from 'next/navigation';
+import { useBookingStore } from '@/hooks/useBookingStore';
+import { ReservationSummary } from '../_components/reservation-summary';
+import { apartments } from '@/app/apartments/data/apartments';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function RoomPage({ searchParams }: { searchParams: { [key: string]: string } }) {
-  const router = useRouter()
-  const startDate = searchParams.startDate || ''
-  const endDate = searchParams.endDate || ''
-  const guests = searchParams.guests || ''
-  const selectedRoomId = searchParams.room
-
-  const selectedRoom = selectedRoomId 
-    ? apartments.find(apt => String(apt.id) === selectedRoomId)
-    : undefined
+  const router = useRouter();
+  const { bookingData, setBookingData, clearSelectedRoom } = useBookingStore(searchParams);
+  const { startDate, endDate, guests, selectedRoom } = bookingData;
 
   const handleRoomSelect = (roomId: number) => {
-    // If clicking the same room, unselect it
-    if (String(roomId) === selectedRoomId) {
-      router.push(`/booking/room?startDate=${startDate}&endDate=${endDate}&guests=${guests}`)
-    } else {
-      router.push(`/booking/room?startDate=${startDate}&endDate=${endDate}&guests=${guests}&room=${roomId}`)
+    const room = apartments.find(apt => apt.id === roomId);
+    if (room) {
+      setBookingData({
+        ...bookingData,
+        selectedRoom: {
+          id: String(room.id),
+          name: room.name,
+          price: room.price,
+          image: room.images[0].src
+        }
+      });
+      const url = `/booking/room?startDate=${startDate}&endDate=${endDate}&guests=${guests}&room=${roomId}`;
+      router.push(url);
     }
-  }
+  };
+
+  const handleRoomUnselect = () => {
+    clearSelectedRoom();
+    const url = `/booking/room?startDate=${startDate}&endDate=${endDate}&guests=${guests}`;
+    router.push(url);
+  };
 
   const handleContinue = () => {
     if (selectedRoom) {
-      router.push(`/booking/contact?startDate=${startDate}&endDate=${endDate}&guests=${guests}&room=${selectedRoomId}`)
+      router.push(`/booking/contact`);
     }
-  }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 text-gray-700">
-      
       <div className="grid md:grid-cols-[1fr,400px] gap-8">
         <div>
           <div className="mb-8">
@@ -46,7 +55,7 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
               <div 
                 key={apartment.id}
                 className={`border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow
-                  ${String(apartment.id) === selectedRoomId ? 'border-primary' : ''}`}
+                  ${String(apartment.id) === selectedRoom?.id ? 'border-primary' : ''}`}
               >
                 <div className="grid md:grid-cols-[300px,1fr] gap-6">
                   <div className="relative h-[200px] md:h-full">
@@ -75,7 +84,6 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
                       <div>
                         <span className="font-semibold">Max Guests:</span> {apartment.bedrooms * 2}
                       </div>
-                      
                     </div>
                    
                     <div className="flex items-center justify-between">
@@ -85,18 +93,18 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
                       </div>
                       <Link href={`/apartments/${apartment.id}`}>
                         <button className="shadow-mg bg-primary bg-turquoise text-white font-semibold px-4 py-2 rounded hover:bg-turquoise-dark">
-                            View Details
+                          View Details
                         </button>
-                    </Link>
+                      </Link>
                       <button
-                        onClick={() => handleRoomSelect(apartment.id)}
+                        onClick={() => String(apartment.id) === selectedRoom?.id ? handleRoomUnselect() : handleRoomSelect(apartment.id)}
                         className={`px-6 py-2 rounded-md transition-colors ${
-                          String(apartment.id) === selectedRoomId
-                            ? 'bg-accent text-white'
+                          String(apartment.id) === selectedRoom?.id
+                            ? 'bg-red-500 text-white'
                             : 'bg-primary text-white hover:bg-accent'
                         }`}
                       >
-                        {String(apartment.id) === selectedRoomId ? 'Unselect' : 'Select Room'}
+                        {String(apartment.id) === selectedRoom?.id ? 'Unselect' : 'Select Room'}
                       </button>
                     </div>
                   </div>
@@ -121,15 +129,15 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
           <ReservationSummary
             startDate={startDate}
             endDate={endDate}
-            guests={guests}
+            guests={String(guests)}
             selectedRoom={selectedRoom ? {
               name: selectedRoom.name,
               price: selectedRoom.price,
-              image: selectedRoom.images[0].src
+              image: selectedRoom.image
             } : undefined}
           />
         </div>
       </div>
     </div>
-  )
+  );
 }

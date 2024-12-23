@@ -1,39 +1,41 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useBookingStore } from '@/hooks/useBookingStore';
 
 interface BookingFormProps {
-  initialStartDate?: string
-  initialEndDate?: string
-  initialGuests?: string
-  currentPage?: 'main' | 'booking'
+  currentPage?: 'main' | 'booking';
 }
 
-export default function BookingForm({ 
-  initialStartDate,
-  initialEndDate,
-  initialGuests,
-  currentPage = 'main'
+export default function BookingForm({
+  currentPage = 'main',
 }: BookingFormProps) {
-  const router = useRouter()
-  const [startDate, setStartDate] = useState(initialStartDate || '')
-  const [endDate, setEndDate] = useState(initialEndDate || '')
-  const [guests, setGuests] = useState(initialGuests ? Number(initialGuests) : 1)
-  const [minDate, setMinDate] = useState('')
+  const router = useRouter();
+  const { bookingData, setBookingData } = useBookingStore();
+  const [localStartDate, setLocalStartDate] = useState(bookingData.startDate || '');
+  const [localEndDate, setLocalEndDate] = useState(bookingData.endDate || '');
+  const [localGuests, setLocalGuests] = useState(bookingData.guests || 1);
+  const [minDate, setMinDate] = useState('');
 
   useEffect(() => {
-    const today = new Date()
-    const formattedDate = today.toISOString().split('T')[0]
-    setMinDate(formattedDate)
-    if (!startDate && !initialStartDate) setStartDate(formattedDate)
-  }, [startDate, initialStartDate])
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    setMinDate(formattedDate);
+    if (!localStartDate && !bookingData.startDate) setLocalStartDate(formattedDate);
+  }, [localStartDate, bookingData.startDate]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const nextPath = currentPage === 'main' ? '/booking' : '/booking/room'
-    router.push(`${nextPath}?startDate=${startDate}&endDate=${endDate}&guests=${guests}`)
-  }
+    e.preventDefault();
+    setBookingData({
+      ...bookingData,
+      startDate: localStartDate,
+      endDate: localEndDate,
+      guests: localGuests
+    });
+    const nextPath = currentPage === 'main' ? '/booking' : '/booking/room';
+    router.push(`${nextPath}?startDate=${localStartDate}&endDate=${localEndDate}&guests=${localGuests}`);
+  };
 
   return (
     <div className="bg-white/95 p-6 rounded-lg shadow-lg w-full max-w-[600px] mx-auto">
@@ -46,12 +48,12 @@ export default function BookingForm({
             <input
               type="date"
               id="start-date"
-              value={startDate}
+              value={localStartDate}
               min={minDate}
               onChange={(e) => {
-                setStartDate(e.target.value)
-                if (e.target.value > endDate) {
-                  setEndDate(e.target.value)
+                setLocalStartDate(e.target.value);
+                if (e.target.value > localEndDate) {
+                  setLocalEndDate(e.target.value);
                 }
               }}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
@@ -66,9 +68,9 @@ export default function BookingForm({
             <input
               type="date"
               id="end-date"
-              value={endDate}
-              min={startDate || minDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={localEndDate}
+              min={localStartDate || minDate}
+              onChange={(e) => setLocalEndDate(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
               required
             />
@@ -80,8 +82,8 @@ export default function BookingForm({
             </label>
             <select
               id="guests"
-              value={guests}
-              onChange={(e) => setGuests(Number(e.target.value))}
+              value={localGuests}
+              onChange={(e) => setLocalGuests(Number(e.target.value))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
               required
             >
@@ -104,6 +106,5 @@ export default function BookingForm({
         </div>
       </form>
     </div>
-  )
+  );
 }
-

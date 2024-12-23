@@ -1,25 +1,14 @@
 'use client'
 
-import { ReservationSummary } from '../_components/reservation-summary'
-import { apartments } from '@/app/apartments/data/apartments'
+import { useBookingStore } from '@/hooks/useBookingStore';
+import { ReservationSummary } from '../_components/reservation-summary';
 
-export default function PaymentPage({ 
-  searchParams 
-}: { 
-  searchParams: { [key: string]: string } 
-}) {
-  const startDate = searchParams.startDate || ''
-  const endDate = searchParams.endDate || ''
-  const guests = searchParams.guests || ''
-  const selectedRoomId = searchParams.room
-
-  const selectedRoom = selectedRoomId 
-    ? apartments.find(apt => String(apt.id) === selectedRoomId)
-    : undefined
+export default function PaymentPage() {
+  const { bookingData } = useBookingStore();
+  const { startDate, endDate, guests, selectedRoom, contactInfo } = bookingData;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      
       <div className="grid md:grid-cols-[1fr,400px] gap-8">
         <div>
           <div className="mb-8">
@@ -36,11 +25,9 @@ export default function PaymentPage({
                 <input
                   type="text"
                   id="card"
-                  placeholder="1234 5678 9012 3456"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
                 />
               </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="expiry" className="block text-sm font-medium text-gray-700 mb-1">
@@ -66,7 +53,6 @@ export default function PaymentPage({
                   />
                 </div>
               </div>
-
               <button
                 type="submit"
                 className="w-full px-6 py-3 bg-primary hover:bg-accent text-white font-semibold rounded-md"
@@ -81,15 +67,16 @@ export default function PaymentPage({
           <ReservationSummary
             startDate={startDate}
             endDate={endDate}
-            guests={guests}
+            guests={String(guests)}
             selectedRoom={selectedRoom ? {
               name: selectedRoom.name,
               price: selectedRoom.price,
-              image: selectedRoom.images[0].src
+              image: selectedRoom.image
             } : undefined}
+            contactInfo={contactInfo}
           />
         </div>
       </div>
     </div>
-  )
+  );
 }

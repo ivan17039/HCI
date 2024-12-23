@@ -25,7 +25,8 @@ export default function PaymentPage() {
                 <input
                   type="text"
                   id="card"
-                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+                  placeholder="1234 5678 9012 3456"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">

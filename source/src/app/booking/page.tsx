@@ -23,9 +23,8 @@ const BookingPage = ({ searchParams = {} }: PageProps) => {
 
   useEffect(() => {
     console.log('searchParams:', searchParams);
-    console.log('apartments:', apartments);
     console.log('selectedRoomId:', params.get('room'));
-  }, [searchParams, apartments, params]);
+  }, [searchParams, params]);
 
   const selectedRoom = params.get('room') && apartments
     ? apartments.find((apt) => String(apt.id) === params.get('room'))
@@ -62,15 +61,11 @@ const BookingPage = ({ searchParams = {} }: PageProps) => {
             startDate={bookingData.startDate}
             endDate={bookingData.endDate}
             guests={String(bookingData.guests)}
-            selectedRoom={
-              bookingData.selectedRoom
-                ? {
-                    name: bookingData.selectedRoom.name,
-                    price: bookingData.selectedRoom.price,
-                    image: bookingData.selectedRoom.image,
-                  }
-                : undefined
-            }
+            selectedRoom={bookingData.selectedRoom ? {
+              name: bookingData.selectedRoom.name,
+              price: bookingData.selectedRoom.price,
+              image: bookingData.selectedRoom.image
+            } : undefined}
           />
         </div>
       </div>

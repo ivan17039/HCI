@@ -43,7 +43,7 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 text-gray-700">
-      <div className="grid md:grid-cols-[1fr,400px] gap-8">
+      <div className="grid customLg:grid-cols-[1fr,400px] gap-8">
         <div>
           <div className="mb-8">
             <h1 className="text-2xl font-bold mb-2">Select Your Room</h1>
@@ -57,8 +57,8 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
                 className={`border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow
                   ${String(apartment.id) === selectedRoom?.id ? 'border-primary' : ''}`}
               >
-                <div className="grid md:grid-cols-[300px,1fr] gap-6">
-                  <div className="relative h-[200px] md:h-full">
+                <div className="grid customLg:grid-cols-[300px,1fr] gap-6">
+                  <div className="relative h-[200px] customLg:h-full">
                     <Image
                       src={apartment.images[0].src}
                       alt={apartment.images[0].alt}
@@ -67,26 +67,28 @@ export default function RoomPage({ searchParams }: { searchParams: { [key: strin
                     />
                   </div>
                   
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{apartment.name}</h3>
-                    <p className="text-gray-600 mb-4">{apartment.description}</p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-4 text-sm text-gray-600">
-                      <div>
-                        <span className="font-semibold">Bedrooms:</span> {apartment.bedrooms}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Bathrooms:</span> {apartment.bathrooms}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Size:</span> {apartment.size}m²
-                      </div>
-                      <div>
-                        <span className="font-semibold">Max Guests:</span> {apartment.bedrooms * 2}
+                  <div className="p-6 flex flex-col justify-between">
+                    <div >
+                      <h3 className="text-xl font-semibold mb-2">{apartment.name}</h3>
+                      <p className="text-gray-600 mb-4">{apartment.description}</p>
+                      
+                      <div className="grid grid-cols-1 gap-4 mb-4 text-sm text-gray-600">
+                        <div>
+                          <span className="font-semibold">Bedrooms:</span> {apartment.bedrooms}
+                        </div>
+                        <div>
+                          <span className="font-semibold">Bathrooms:</span> {apartment.bathrooms}
+                        </div>
+                        <div>
+                          <span className="font-semibold">Size:</span> {apartment.size}m²
+                        </div>
+                        <div>
+                          <span className="font-semibold">Max Guests:</span> {apartment.bedrooms * 2}
+                        </div>
                       </div>
                     </div>
                    
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-10 mt-4">
                       <div className="text-lg">
                         <span className="font-bold">€{apartment.price}</span>
                         <span className="text-gray-600">/night</span>

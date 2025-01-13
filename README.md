@@ -29,6 +29,7 @@
 - Link to Assignment 3: [**Next.js - Deploying Application**](https://hci-zj6c.vercel.app/) <!-- Replace with actual URL -->
 - Link to Assignment 4: [**Low/High-fidelity prototype**](/assignments/Low&High-fidelity%20prototype/) 
 - Link to Assignment 5: [**Dynamic routes, data fetching**](/assignments/Dynamic%20routes,%20data%20fetching/) 
+- Link to Assignment 6: [**Full Responsive Page Coding**](/assignments/Full%20Responsive%20Page%20Coding/)
 <!-- Add more assignments as necessary -->
 
 ## Project Requirements

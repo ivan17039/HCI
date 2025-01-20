@@ -15,10 +15,10 @@ export function StepsNav() {
   const searchParams = useSearchParams()
   const currentStepIndex = steps.findIndex(step => step.path === pathname)
 
-  const getStepHref = (path: string) => {
-    const params = new URLSearchParams(searchParams)
-    return `${path}?${params.toString()}`
-  }
+  const getStepHref = (path: string, searchParams: URLSearchParams | null) => {
+    const params = new URLSearchParams(searchParams || "");
+    return `${path}?${params.toString()}`;
+  };
 
   return (
     <nav className="w-full max-w-4xl mx-auto mb-8">
@@ -26,7 +26,7 @@ export function StepsNav() {
         {steps.map((step, index) => (
           <li key={step.name} className="relative flex-1">
             <Link
-              href={getStepHref(step.path)}
+              href={getStepHref(step.path, searchParams)}
               className={`flex flex-col items-center text-sm font-medium 
                 ${index <= currentStepIndex ? 'text-primary' : 'text-gray-500'}`}
             >

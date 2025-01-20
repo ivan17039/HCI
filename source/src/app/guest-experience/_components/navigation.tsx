@@ -10,7 +10,6 @@ type Page = {
 
 // We hardcode pages here, but you could get this information from some external source (e.g. CMS, DB, config file, etc).
 const pages: Page[] = [
-  
   {
     title: "Photos",
     path: "/guest-experience/photos",
@@ -43,7 +42,7 @@ function processPage(page: Page, index: number, pathname: string) {
 }
 
 export function Navigation() {
-  const pathname = usePathname();
+  const pathname = usePathname() || ""; // Osiguravamo da pathname bude string
   return (
     <ul className="flex justify-center space-x-4 mt-8">
       {pages.map((page, index) => processPage(page, index, pathname))}

@@ -30,21 +30,18 @@ function processPage(page: Page, index: number, pathname: string) {
       : pathname.startsWith(page.path);
 
   return (
-    <Link href={page.path}>
-    <button
-      key={index}
-      className={`rounded-lg shadow-lg subNavbutton ${isActive ? "active-class" : ""}`}
-    >
-      
+    <Link href={page.path} key={index}>
+      <button
+        className={`rounded-lg shadow-lg subNavbutton ${isActive ? "active-class" : ""}`}
+      >
         {page.title}
-      
-    </button>
+      </button>
     </Link>
   );
 }
 
 export function Navigation() {
-  const pathname = usePathname();
+  const pathname = usePathname() || ""; // Osiguravamo da pathname bude string
   return (
     <div>
       <h2 className="text-3xl font-bold text-black flex justify-center py-10">Explore More</h2>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import Logo from "@/components/logo";
@@ -11,16 +11,13 @@ export function Navigation() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [blockHeight, setBlockHeight] = useState('auto');
-  const [blockWidth, setBlockWidth] = useState('auto'); // Added blockWidth state
+  const [blockHeight, setBlockHeight] = useState("auto");
+  const [blockWidth, setBlockWidth] = useState("auto");
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
-  const handleLogin = () => setIsLoggedIn(!isLoggedIn);
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
-
-  useClickOutside(navRef, closeMenu);
+  useClickOutside(navRef, () => setIsMenuOpen(false));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +25,7 @@ export function Navigation() {
       setHasScrolled(scrollPosition > 50);
     };
 
-    const updateBlockDimensions = () => { // Updated function name
+    const updateBlockDimensions = () => {
       if (navRef.current) {
         const navItems = navRef.current.querySelector('ul');
         if (navItems) {
@@ -50,6 +47,28 @@ export function Navigation() {
     };
   }, [isLoggedIn]);
 
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    router.push("/");
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+
+    const handleLogin = () => {
+      setIsLoggedIn(true);
+    };
+
+    window.addEventListener("login", handleLogin);
+
+    return () => {
+      window.removeEventListener("login", handleLogin);
+    };
+  }, []);
 
   const pages = [
     { title: "Apartments", path: "/apartments" },
@@ -64,14 +83,11 @@ export function Navigation() {
     <nav
       className={cn(
         "fixed top-0 left-0 w-full z-50 h-[70px] flex items-center px-6 transition-all duration-300",
-        hasScrolled
-          ? "bg-white shadow-md"
-          : "bg-transparent"
+        hasScrolled ? "bg-white shadow-md" : "bg-transparent"
       )}
       ref={navRef}
     >
-      <Link href="/" onClick={closeMenu} className="flex items-center">
-        {/* Uvjetno renderiranje table */}
+      <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
         {!hasScrolled ? (
           <div className="bg-white/80 border-4 border-primary shadow-lg rounded-xl px-1 py-4 relative">
             <Logo color="text-logoblue font-bold text-3xl" />
@@ -86,7 +102,7 @@ export function Navigation() {
       <div className="container mx-auto flex justify-end items-center">
         <button
           className="flex customLg:hidden flex-col justify-start items-end w-10 h-10 p-2 z-50 space-y-1.5 rounded-md translate-x-2.5"
-          onClick={toggleMenu}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
           <span
@@ -117,7 +133,7 @@ export function Navigation() {
             )}
             style={{ 
               height: blockHeight, 
-              width: blockWidth, // Added width style
+              width: blockWidth, 
               left: '50%',
               top: '50%',
               transform: 'translate(-50%, -50%)'
@@ -132,7 +148,7 @@ export function Navigation() {
               <li key={index}>
                 <Link
                   href={page.path}
-                  className={`nav-link ${pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
+                  className={`nav-link ${pathname && pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
                 >
                   {page.title}
                 </Link>
@@ -142,7 +158,7 @@ export function Navigation() {
               <li key={index}>
                 <Link
                   href={page.path}
-                  className={`nav-link ${pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
+                  className={`nav-link ${pathname && pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
                 >
                   {page.title}
                 </Link>
@@ -155,7 +171,7 @@ export function Navigation() {
           <ul className="absolute top-0 right-0 w-full bg-blue-50 shadow-lg p-4 space-y-4 customLg:hidden border-2 border-gray-300 rounded-lg text-center">
             <div className="pb-2 border-b border-gray-300 flex justify-between items-center">
               <div className="flex justify-center w-full ml-10">
-                <Link href='/' onClick={closeMenu}>
+                <Link href='/' onClick={() => setIsMenuOpen(false)}>
                   <Logo color="text-logoblue font-bold" />
                 </Link>
               </div>
@@ -163,9 +179,9 @@ export function Navigation() {
 
             {pages.map((page, index) => (
               <li key={index}>
-                <Link onClick={closeMenu}
+                <Link onClick={() => setIsMenuOpen(false)}
                   href={page.path}
-                  className={`nav-link ${pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
+                  className={`nav-link ${pathname && pathname.startsWith(page.path) ? "text-accent font-bold" : ""}`}
                 >
                   {page.title}
                 </Link>
@@ -173,23 +189,49 @@ export function Navigation() {
             ))}
             {isLoggedIn && privatePages.map((page, index) => (
               <li key={index}>
-                <Link onClick={closeMenu}
+                <Link onClick={() => setIsMenuOpen(false)}
                   href={page.path}
-                  className={`nav-link ${pathname.startsWith(page.path) ? "text-accent" : ""}`}
+                  className={`nav-link ${pathname && pathname.startsWith(page.path) ? "text-accent" : ""}`}
                 >
                   {page.title}
                 </Link>
               </li>
             ))}
 
-            <li>
-              <button
-                onClick={handleLogin}
-                className="text-lg font-semibold bg-primary text-white py-2 px-11 rounded-md shadow-md hover:bg-accent transition-all duration-300"
-              >
-                {isLoggedIn ? "Logout" : "Login"}
-              </button>
-            </li>
+            {!isLoggedIn && (
+              <>
+                <li>
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-lg font-semibold bg-primary text-white py-2 px-11 rounded-md hover:text-white shadow-md hover:bg-accent transition-all duration-300"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-lg font-semibold bg-primary text-white py-2 px-11 rounded-md shadow-md hover:bg-accent hover:text-white transition-all duration-300"
+                  >
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {isLoggedIn && (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="text-lg font-semibold bg-primary text-white py-2 px-11 rounded-md shadow-md hover:bg-accent transition-all duration-300"
+                >
+                  Logout
+                </button>
+              </li>
+            )}
+
             <li className="text-center">
               <Link
                 href="/booking"
@@ -208,25 +250,32 @@ export function Navigation() {
         >
           Book Now
         </Link>
-        <button
-          onClick={() => {
-            handleLogin();
-            setTimeout(() => {
-              const navItems = navRef.current?.querySelector('ul');
-              if (navItems) {
-                const height = navItems.offsetHeight + 20;
-                const width = navItems.offsetWidth + 40;
-                setBlockHeight(`${height}px`);
-                setBlockWidth(`${width}px`);
-              }
-            }, 0);
-          }}
-          className="whitespace-nowrap hover:bg-accent bg-primary text-white font-semibold py-2 px-6 rounded-md"
-        >
-          {isLoggedIn ? "Logout" : "Login"}
-        </button>
+        {!isLoggedIn ? (
+          <>
+            <Link
+              href="/login"
+              className="whitespace-nowrap hover:text-white hover:bg-accent bg-primary text-white font-semibold py-2 px-6 rounded-md"
+            >
+              Login
+            </Link>
+            <Link
+              href="/register"
+              className="whitespace-nowrap hover:text-white hover:bg-accent bg-primary text-white font-semibold py-2 px-6 rounded-md"
+            >
+              Register
+            </Link>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={handleLogout}
+              className="whitespace-nowrap hover:bg-accent bg-primary text-white font-semibold py-2 px-6 rounded-md"
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );
 }
-

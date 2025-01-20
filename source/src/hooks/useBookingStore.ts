@@ -58,9 +58,20 @@ export function useBookingStore(urlParams?: {
     });
   };
 
+  const clearBookingData = () => {
+    setBookingData({
+      startDate: '',
+      endDate: '',
+      guests: 1,
+      selectedRoom: undefined,
+      contactInfo: undefined
+    });
+  };
+
   return {
     bookingData,
     setBookingData,
-    clearSelectedRoom
+    clearSelectedRoom,
+    clearBookingData
   };
 }

@@ -10,7 +10,7 @@ export default function BookingLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pathname = usePathname()
+  const pathname = usePathname() || ""; // Osiguravamo da pathname bude string
   const isBookingFlow = pathname.startsWith('/booking') && 
     !pathname.includes('/availability') && 
     !pathname.includes('/booking-process') && 

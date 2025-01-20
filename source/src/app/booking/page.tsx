@@ -7,27 +7,28 @@ import { ReservationSummary } from './_components/reservation-summary';
 import { useBookingStore } from '@/hooks/useBookingStore';
 import { apartments } from '@/app/apartments/data/apartments';
 
-
 interface PageProps {
   searchParams?: { [key: string]: string };
 }
 
 const BookingPage = ({ searchParams = {} }: PageProps) => {
   const params = useSearchParams();
+  const safeParams = params || new URLSearchParams(); // Osiguravamo da params nije null
+
   const { bookingData, setBookingData } = useBookingStore({
-    startDate: params.get('startDate') || undefined,
-    endDate: params.get('endDate') || undefined,
-    guests: params.get('guests') || undefined,
-    room: params.get('room') || undefined,
+    startDate: safeParams.get('startDate') || undefined,
+    endDate: safeParams.get('endDate') || undefined,
+    guests: safeParams.get('guests') || undefined,
+    room: safeParams.get('room') || undefined,
   });
 
   useEffect(() => {
     console.log('searchParams:', searchParams);
-    console.log('selectedRoomId:', params.get('room'));
-  }, [searchParams, params]);
+    console.log('selectedRoomId:', safeParams.get('room'));
+  }, [searchParams, safeParams]);
 
-  const selectedRoom = params.get('room') && apartments
-    ? apartments.find((apt) => String(apt.id) === params.get('room'))
+  const selectedRoom = safeParams.get('room') && apartments
+    ? apartments.find((apt) => String(apt.id) === safeParams.get('room'))
     : undefined;
 
   useEffect(() => {

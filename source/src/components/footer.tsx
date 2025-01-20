@@ -34,7 +34,7 @@ const sitemapLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-primary py-6 mt-20">
+    <footer className="bg-primary py-6">
 
     {/* Logo at the top */}
     <div className="text-center mb-6">

@@ -49,6 +49,13 @@ body {
   background: var(--background);
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%; /* Osigurava da footer stoji na dnu */
+  position: relative;
+}
+
 h1, h2, h3 {
   font-family: "Montserrat", sans-serif;
   @apply text-primary font-bold;
@@ -82,8 +89,14 @@ button {
   @apply shadow-xl;
 }
 
-.footer {
-  @apply bg-background text-foreground py-4 text-center;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
 }
 
 @layer utilities {

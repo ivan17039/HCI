@@ -1,142 +1,198 @@
-'use client'
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useBookingStore } from '@/hooks/useBookingStore';
-import { ReservationSummary } from '../_components/reservation-summary';
-import { apartments } from '@/app/apartments/data/apartments';
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "sonner";
 
-export default function RoomPage({ searchParams }: { searchParams: { [key: string]: string } }) {
+import { useBookingStore } from "@/hooks/useBookingStore";
+import { apartments } from "@/app/apartments/data/apartments";
+import { checkAvailability } from "@/lib/date-utils";
+import { Card, Button } from "../_components/ui";
+import { ReservationSummary } from "../_components/reservation-summary";
+
+interface ApartmentAvailability {
+  id: string;
+  isAvailable: boolean;
+  isChecking: boolean;
+}
+
+export default function RoomSelectionPage() {
   const router = useRouter();
-  const { bookingData, setBookingData, clearSelectedRoom } = useBookingStore(searchParams);
-  const { startDate, endDate, guests, selectedRoom } = bookingData;
+  const { bookingData, setBookingData, clearSelectedRoom, isStepCompleted } =
+    useBookingStore();
+  const [availabilityStatus, setAvailabilityStatus] = useState<
+    ApartmentAvailability[]
+  >([]);
 
-  const handleRoomSelect = (roomId: number) => {
-    const room = apartments.find(apt => apt.id === roomId);
-    if (room) {
-      setBookingData({
-        ...bookingData,
-        selectedRoom: {
-          id: String(room.id),
-          name: room.name,
-          price: room.price,
-          image: room.images[0].src
+  useEffect(() => {
+    if (!isStepCompleted("dates")) {
+      router.push("/booking");
+      return;
+    }
+
+    const initialStatus = apartments.map((apt) => ({
+      id: String(apt.id),
+      isAvailable: true,
+      isChecking: true,
+    }));
+    setAvailabilityStatus(initialStatus);
+
+    const checkAllApartments = async () => {
+      const checkPromises = apartments.map(async (apartment) => {
+        try {
+          const isAvailable = await checkAvailability(
+            bookingData.startDate,
+            bookingData.endDate,
+            apartment.name
+          );
+          return {
+            id: String(apartment.id),
+            isAvailable,
+            isChecking: false,
+          };
+        } catch (error) {
+          console.error(
+            `Error checking availability for ${apartment.name}:`,
+            error
+          );
+          return {
+            id: String(apartment.id),
+            isAvailable: false,
+            isChecking: false,
+          };
         }
       });
-      const url = `/booking/room?startDate=${startDate}&endDate=${endDate}&guests=${guests}&room=${roomId}`;
-      router.push(url);
+
+      const results = await Promise.all(checkPromises);
+      setAvailabilityStatus(results);
+    };
+
+    if (bookingData.startDate && bookingData.endDate) {
+      checkAllApartments();
     }
+  }, [bookingData.startDate, bookingData.endDate, isStepCompleted, router]);
+
+  const handleSelectRoom = (apartment: (typeof apartments)[0]) => {
+    const apartmentStatus = availabilityStatus.find(
+      (status) => status.id === String(apartment.id)
+    );
+
+    if (!apartmentStatus?.isAvailable) {
+      toast.error("This apartment is not available for the selected dates");
+      return;
+    }
+
+    const selectedRoom = {
+      id: String(apartment.id),
+      name: apartment.name,
+      price: apartment.price,
+      image: apartment.images[0].src,
+    };
+
+    setBookingData({ selectedRoom });
   };
 
   const handleRoomUnselect = () => {
     clearSelectedRoom();
-    const url = `/booking/room?startDate=${startDate}&endDate=${endDate}&guests=${guests}`;
-    router.push(url);
+  };
+
+  const getAvailabilityStatus = (apartmentId: number) => {
+    return availabilityStatus.find(
+      (status) => status.id === String(apartmentId)
+    );
   };
 
   const handleContinue = () => {
-    if (selectedRoom) {
-      router.push(`/booking/contact`);
+    if (bookingData.selectedRoom) {
+      router.push("/booking/contact-data");
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-gray-700">
-      <div className="grid customLg:grid-cols-[1fr,400px] gap-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="grid md:grid-cols-[1fr,400px] gap-8">
         <div>
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-2">Select Your Room</h1>
-            <p className="text-gray-600">Choose from our available rooms for your stay</p>
-          </div>
+          <h1 className="text-3xl font-bold mb-8">Select Your Room</h1>
+          <div className="grid md:grid-cols-2 gap-6">
+            {apartments.map((apartment) => {
+              const status = getAvailabilityStatus(apartment.id);
 
-          <div className="grid gap-6">
-            {apartments.map((apartment) => (
-              <div 
-                key={apartment.id}
-                className={`border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow
-                  ${String(apartment.id) === selectedRoom?.id ? 'border-primary' : ''}`}
-              >
-                <div className="grid customLg:grid-cols-[300px,1fr] gap-6">
-                  <div className="relative h-[200px] customLg:h-full">
+              return (
+                <Card key={apartment.id} className="overflow-hidden">
+                  <div className="relative h-48">
                     <Image
-                      src={apartment.images[0].src}
-                      alt={apartment.images[0].alt}
+                      src={apartment.images[0].src || "/placeholder.svg"}
+                      alt={apartment.name}
                       fill
                       className="object-cover"
                     />
                   </div>
-                  
-                  <div className="p-6 flex flex-col justify-between">
-                    <div >
-                      <h3 className="text-xl font-semibold mb-2">{apartment.name}</h3>
-                      <p className="text-gray-600 mb-4">{apartment.description}</p>
-                      
-                      <div className="grid grid-cols-1 gap-4 mb-4 text-sm text-gray-600">
-                        <div>
-                          <span className="font-semibold">Bedrooms:</span> {apartment.bedrooms}
-                        </div>
-                        <div>
-                          <span className="font-semibold">Bathrooms:</span> {apartment.bathrooms}
-                        </div>
-                        <div>
-                          <span className="font-semibold">Size:</span> {apartment.size}m²
-                        </div>
-                        <div>
-                          <span className="font-semibold">Max Guests:</span> {apartment.bedrooms * 2}
-                        </div>
-                      </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">
+                      {apartment.name}
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      {apartment.description}
+                    </p>
+                    <div className="flex items-center justify-between mb-4">
+                      <p className="text-lg font-bold text-gray-700">
+                        €{apartment.price} / night
+                      </p>
+                      {status?.isChecking ? (
+                        <p className="text-gray-500">
+                          Checking availability...
+                        </p>
+                      ) : status?.isAvailable ? (
+                        <p className="text-green-500">Available</p>
+                      ) : (
+                        <p className="text-red-500">Not available</p>
+                      )}
                     </div>
-                   
-                    <div className="flex items-center gap-10 mt-4">
-                      <div className="text-lg">
-                        <span className="font-bold">€{apartment.price}</span>
-                        <span className="text-gray-600">/night</span>
-                      </div>
-                      <Link href={`/apartments/${apartment.id}`}>
-                        <button className="shadow-mg bg-primary bg-turquoise text-white font-semibold px-4 py-2 rounded hover:bg-turquoise-dark">
-                          View Details
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => String(apartment.id) === selectedRoom?.id ? handleRoomUnselect() : handleRoomSelect(apartment.id)}
-                        className={`px-6 py-2 rounded-md transition-colors ${
-                          String(apartment.id) === selectedRoom?.id
-                            ? 'bg-red-500 text-white'
-                            : 'bg-primary text-white hover:bg-accent'
-                        }`}
-                      >
-                        {String(apartment.id) === selectedRoom?.id ? 'Unselect' : 'Select Room'}
-                      </button>
-                    </div>
+                    <Button
+                      onClick={() =>
+                        String(apartment.id) === bookingData.selectedRoom?.id
+                          ? handleRoomUnselect()
+                          : handleSelectRoom(apartment)
+                      }
+                      className={`w-full ${
+                        String(apartment.id) === bookingData.selectedRoom?.id
+                          ? "bg-red-500 text-white hover:bg-red-400"
+                          : "bg-primary text-white hover:bg-accent"
+                      }`}
+                      disabled={status?.isChecking || !status?.isAvailable}
+                    >
+                      {status?.isChecking
+                        ? "Checking..."
+                        : String(apartment.id) === bookingData.selectedRoom?.id
+                        ? "Unselect"
+                        : status?.isAvailable
+                        ? "Select Room"
+                        : "Not Available"}
+                    </Button>
                   </div>
-                </div>
-              </div>
-            ))}
+                </Card>
+              );
+            })}
           </div>
-
-          {selectedRoom && (
+          {bookingData.selectedRoom && (
             <div className="mt-8">
-              <button
+              <Button
                 onClick={handleContinue}
-                className="w-full px-6 py-3 bg-primary hover:bg-accent text-white font-semibold rounded-md"
+                className="nav-linkbtn w-[95%] ml-6"
               >
                 Continue to Contact Details
-              </button>
+              </Button>
             </div>
           )}
         </div>
 
-        <div>
+        <div className="h-fit sticky top-8">
           <ReservationSummary
-            startDate={startDate}
-            endDate={endDate}
-            guests={String(guests)}
-            selectedRoom={selectedRoom ? {
-              name: selectedRoom.name,
-              price: selectedRoom.price,
-              image: selectedRoom.image
-            } : undefined}
+            startDate={bookingData.startDate}
+            endDate={bookingData.endDate}
+            guests={String(bookingData.guests)}
+            selectedRoom={bookingData.selectedRoom}
           />
         </div>
       </div>

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apartments } from "../../apartments/data/apartments";
-import { Button } from "../_components/reservation-ui-elements";
+import { Button } from "../_components/ui";
 import { AvailabilityCalendar } from "../_components/availability-calendar";
 
 interface Reservation {

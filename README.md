@@ -19,7 +19,7 @@
 ### Semester Project
 
 - Link to your production version: [**Production Version**](https://hci-zj6c.vercel.app/) <!-- Replace with actual URL -->
-- Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
+- Link to your final report: [**Final Report**](./docs/README.md) <!-- Replace with actual URL -->
 <!-- Add more as necessary -->
 
 ### Semester Assignments
@@ -27,8 +27,8 @@
 - Link to Assignment 1: [**Figma essentials**](/assignments/Figma-essentials/) <!-- Replace with actual URL -->
 - Link to Assignment 2: [**User personas and information architecture**](/assignments/User%20personas%20and%20information%20architecture/) <!-- Replace with actual URL -->
 - Link to Assignment 3: [**Next.js - Deploying Application**](https://hci-zj6c.vercel.app/) <!-- Replace with actual URL -->
-- Link to Assignment 4: [**Low/High-fidelity prototype**](/assignments/Low&High-fidelity%20prototype/) 
-- Link to Assignment 5: [**Dynamic routes, data fetching**](/assignments/Dynamic%20routes,%20data%20fetching/) 
+- Link to Assignment 4: [**Low/High-fidelity prototype**](/assignments/Low&High-fidelity%20prototype/)
+- Link to Assignment 5: [**Dynamic routes, data fetching**](/assignments/Dynamic%20routes,%20data%20fetching/)
 - Link to Assignment 6: [**Full Responsive Page Coding**](/assignments/Full%20Responsive%20Page%20Coding/)
 <!-- Add more assignments as necessary -->
 

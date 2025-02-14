@@ -36,10 +36,10 @@
   .nav-link:hover {
     @apply scale-105; /* Lagani scale efekt za povećanje */
   }
-
 }
 
-p, li {
+p,
+li {
   font-family: "Roboto", sans-serif;
 }
 
@@ -49,14 +49,17 @@ body {
   background: var(--background);
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   min-height: 100%; /* Osigurava da footer stoji na dnu */
   position: relative;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: "Montserrat", sans-serif;
   @apply text-primary font-bold;
 }
@@ -65,17 +68,12 @@ a {
   @apply text-primary hover:text-accent transition duration-300 ease-in-out;
 }
 
-button {
-  @apply bg-primary text-white font-semibold py-2 px-4 rounded shadow hover:bg-accent transition duration-300 ease-in-out;
+.navbarButton {
+  @apply font-semibold py-2 px-4 text-lg rounded-md transition hover:scale-105;
 }
-.subNavbutton {
-  @apply  font-semibold py-2 px-4 text-lg rounded-md transition hover:scale-105 ;
-}
-.subNavbutton:hover a {
-  @apply  text-white ;
-}
-.subNavbutton a {
-  @apply  text-white ;
+
+.active-class {
+  @apply bg-accent text-white border-2 border-accent;
 }
 .container {
   @apply mx-auto px-4 py-8 max-w-7xl;
@@ -103,4 +101,66 @@ footer {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.button-primary {
+  @apply text-lg border-2 border-primary bg-primary text-white font-semibold py-3 px-10 shadow-lg transition-all ease-linear transform rounded-md;
+}
+
+.button-primary:hover {
+  @apply bg-white border-accent text-accent scale-105;
+}
+
+@media (min-width: 1235px) {
+  .button-primary {
+    font-size: 1.25rem; /* customLg:text-xl */
+  }
+}
+.button-secondary {
+  @apply text-lg border-2 border-primary bg-white text-primary font-semibold py-3 px-6 shadow-md transition-all ease-linear transform scale-100 rounded-md;
+}
+.button-secondary:hover {
+  @apply bg-white border-accent text-accent scale-105;
+}
+.register-linkMobile {
+  @apply text-lg font-semibold bg-primary text-white py-2 px-8 rounded-md shadow-md transition-all ease-linear;
+}
+
+.register-linkMobile:hover {
+  @apply bg-accent text-white;
+}
+
+.login-linkMobile {
+  @apply text-lg font-semibold bg-primary text-white py-2 px-11 rounded-md hover:text-white shadow-md hover:bg-accent transition-all duration-300;
+}
+
+.login-linkMobile:hover {
+  @apply bg-accent text-white;
+}
+
+.nav-linkbtn {
+  @apply whitespace-nowrap bg-primary text-white font-semibold py-2 px-6 rounded-md transition-all ease-linear transform scale-105;
+}
+
+.nav-linkbtn:hover {
+  @apply hover:text-white hover:bg-accent scale-110;
+}
+.book-navlinkMobile {
+  @apply text-lg font-semibold bg-primary text-white py-2 px-6 rounded-md shadow-md border-2 transition-all duration-300;
+}
+.book-navlinkMobile:hover {
+  @apply hover:bg-accent hover:text-white hover:border-accent scale-110;
+}
+.book-navlink {
+  @apply whitespace-nowrap rounded-lg hover:text-accent border-2 hover:border-accent border-primary bg-white text-primary font-semibold py-2 px-6 shadow-md hover:scale-105;
+}
+.book-secondary {
+  @apply whitespace-nowrap rounded-lg hover:text-primary border-2 hover:border-primary border-accent bg-white text-accent font-semibold py-2 px-6 shadow-md hover:scale-105;
+}
+
+.nav-menu-button {
+  @apply bg-primary hover:bg-accent flex customLg:hidden flex-col justify-start items-end w-10 h-10 p-2 z-50 space-y-1.5 rounded-md translate-x-2.5 transition-all duration-300;
+}
+.view-details-button {
+  @apply bg-primary mt-4  text-white font-semibold py-2 px-4 rounded  hover:bg-accent;
 }

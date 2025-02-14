@@ -1,83 +1,151 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useBookingStore } from '@/hooks/useBookingStore';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useBookingStore } from "@/hooks/useBookingStore";
+import { BookingCalendar } from "./booking-calendar";
+import { format } from "date-fns";
+
+interface Reservation {
+  apartmentId: string;
+  startDate: string;
+  endDate: string;
+}
 
 interface BookingFormProps {
-  currentPage?: 'main' | 'booking';
+  reservations: Reservation[];
+  apartmentId: string;
+  apartmentName: string;
+  urlParams?: {
+    startDate?: string;
+    endDate?: string;
+    guests?: string;
+  };
 }
 
 export default function BookingForm({
-  currentPage = 'main',
+  reservations,
+  apartmentId,
+  apartmentName,
+  urlParams,
 }: BookingFormProps) {
   const router = useRouter();
   const { bookingData, setBookingData } = useBookingStore();
-  const [localStartDate, setLocalStartDate] = useState(bookingData.startDate || '');
-  const [localEndDate, setLocalEndDate] = useState(bookingData.endDate || '');
-  const [localGuests, setLocalGuests] = useState(bookingData.guests || 1);
-  const [minDate, setMinDate] = useState('');
+  const [localStartDate, setLocalStartDate] = useState<Date | null>(null);
+  const [localEndDate, setLocalEndDate] = useState<Date | null>(null);
+  const [localGuests, setLocalGuests] = useState(1);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [allReservations, setAllReservations] =
+    useState<Reservation[]>(reservations);
+
+  // Fetch all reservations when component mounts
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const response = await fetch("/api/availability");
+        if (!response.ok) throw new Error("Failed to fetch reservations");
+        const data = await response.json();
+        setAllReservations(data);
+      } catch (error) {
+        console.error("Error loading reservations:", error);
+        setAllReservations(reservations);
+      }
+    };
+
+    fetchReservations();
+  }, []);
 
   useEffect(() => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
-    setMinDate(formattedDate);
-    if (!localStartDate && !bookingData.startDate) setLocalStartDate(formattedDate);
-  }, [localStartDate, bookingData.startDate]);
+    if (urlParams?.startDate) setLocalStartDate(new Date(urlParams.startDate));
+    if (urlParams?.endDate) setLocalEndDate(new Date(urlParams.endDate));
+    if (urlParams?.guests) setLocalGuests(Number(urlParams.guests));
+  }, [urlParams]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.closest(".calendar-wrapper") &&
+        !target.closest(".date-input")
+      ) {
+        setShowCalendar(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleDateSelect = (date: Date) => {
+    if (!localStartDate || (localStartDate && localEndDate)) {
+      setLocalStartDate(date);
+      setLocalEndDate(null);
+    } else {
+      setLocalEndDate(date);
+      setShowCalendar(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setBookingData({
+    if (!localStartDate || !localEndDate) return;
+
+    const updatedBookingData = {
       ...bookingData,
-      startDate: localStartDate,
-      endDate: localEndDate,
-      guests: localGuests
-    });
-    const nextPath = currentPage === 'main' ? '/booking' : '/booking/room';
-    router.push(`${nextPath}?startDate=${localStartDate}&endDate=${localEndDate}&guests=${localGuests}`);
+      startDate: format(localStartDate, "yyyy-MM-dd"),
+      endDate: format(localEndDate, "yyyy-MM-dd"),
+      guests: localGuests,
+    };
+
+    setBookingData(updatedBookingData);
+
+    router.push(
+      `/booking/room?apartmentId=${apartmentId}&startDate=${updatedBookingData.startDate}&endDate=${updatedBookingData.endDate}&guests=${updatedBookingData.guests}`
+    );
+  };
+
+  const dateRangeText = () => {
+    if (!localStartDate) return "Select dates";
+    if (!localEndDate) return `From ${format(localStartDate, "MMM dd, yyyy")}`;
+    return `${format(localStartDate, "MMM dd")} - ${format(
+      localEndDate,
+      "MMM dd, yyyy"
+    )}`;
   };
 
   return (
     <div className="bg-white/95 p-6 rounded-lg shadow-lg w-full max-w-[600px] mx-auto">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-          <div className="flex-1">
-            <label htmlFor="start-date" className="block text-sm font-medium text-gray-700 mb-1">
-              Check in
+        <div className="flex flex-col space-y-4">
+          <div className="relative">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Dates
             </label>
-            <input
-              type="date"
-              id="start-date"
-              value={localStartDate}
-              min={minDate}
-              onChange={(e) => {
-                setLocalStartDate(e.target.value);
-                if (e.target.value > localEndDate) {
-                  setLocalEndDate(e.target.value);
-                }
-              }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-              required
-            />
+            <button
+              type="button"
+              onClick={() => setShowCalendar(!showCalendar)}
+              className="w-full px-3 py-2 text-left border border-gray-300 rounded-md focus:ring-primary focus:border-primary date-input"
+            >
+              {dateRangeText()}
+            </button>
+            {showCalendar && (
+              <div className="absolute z-20 mt-1 calendar-wrapper">
+                <BookingCalendar
+                  selectedStartDate={localStartDate}
+                  selectedEndDate={localEndDate}
+                  onDateSelect={handleDateSelect}
+                  reservations={allReservations}
+                  apartment={{ id: apartmentId, name: apartmentName }}
+                />
+              </div>
+            )}
           </div>
 
-          <div className="flex-1">
-            <label htmlFor="end-date" className="block text-sm font-medium text-gray-700 mb-1">
-              Check out
-            </label>
-            <input
-              type="date"
-              id="end-date"
-              value={localEndDate}
-              min={localStartDate || minDate}
-              onChange={(e) => setLocalEndDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-              required
-            />
-          </div>
-
-          <div className="flex-1">
-            <label htmlFor="guests" className="block text-sm font-medium text-gray-700 mb-1">
+          <div>
+            <label
+              htmlFor="guests"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Guests
             </label>
             <select
@@ -87,23 +155,22 @@ export default function BookingForm({
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
               required
             >
-              {[1, 2, 3, 4, 5, 6].map(num => (
+              {[1, 2, 3, 4, 5, 6].map((num) => (
                 <option key={num} value={num}>
-                  {num} {num === 1 ? 'guest' : 'guests'}
+                  {num} {num === 1 ? "guest" : "guests"}
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        <div>
-          <button
-            type="submit"
-            className="w-full px-6 py-3 bg-primary hover:bg-accent text-white font-semibold rounded-md"
-          >
-            {currentPage === 'main' ? 'Next' : 'Update and Continue'}
-          </button>
-        </div>
+        <button
+          type="submit"
+          disabled={!localStartDate || !localEndDate}
+          className="w-full px-6 py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Book Now
+        </button>
       </form>
     </div>
   );

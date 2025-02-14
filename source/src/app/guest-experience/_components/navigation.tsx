@@ -3,49 +3,49 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-type Page = {
-  title: string;
-  path: `/${string}`;
+export const Navigation = () => {
+  const pathname = usePathname();
+
+  const links = [
+    {
+      href: "/guest-experience",
+      name: "Guest Experience",
+    },
+    {
+      href: "/guest-experience/photos",
+      name: "Guest Photos",
+    },
+    {
+      href: "/guest-experience/reviews",
+      name: "Guest Reviews",
+    },
+  ];
+
+  return (
+    <div className="flex justify-start items-center w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="mb-8 py-4">
+        <ul className="flex flex-wrap -mb-px">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`
+                  py-4 px-2 border-b-2 text-sm font-medium transition-colors
+                  ${
+                    isActive
+                      ? "border-accent text-accent"
+                      : "border-transparent text-primary hover:text-accent hover:border-accent"
+                  }
+                `}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </ul>
+      </nav>
+    </div>
+  );
 };
-
-// We hardcode pages here, but you could get this information from some external source (e.g. CMS, DB, config file, etc).
-const pages: Page[] = [
-  {
-    title: "Photos",
-    path: "/guest-experience/photos",
-  },
-  {
-    title: "Reviews",
-    path: "/guest-experience/reviews",
-  },
-];
-
-function processPage(page: Page, index: number, pathname: string) {
-  return (
-    <li key={index}>
-      <Link
-        href={page.path}
-        className={
-          page.path === "/"
-            ? pathname === page.path
-              ? "font-extrabold text-accent"
-              : "text-primary"
-            : pathname.startsWith(page.path)
-            ? "font-extrabold text-accent"
-            : "text-primary"
-        }
-      >
-        {page.title}
-      </Link>
-    </li>
-  );
-}
-
-export function Navigation() {
-  const pathname = usePathname() || ""; // Osiguravamo da pathname bude string
-  return (
-    <ul className="flex justify-center space-x-4 mt-8">
-      {pages.map((page, index) => processPage(page, index, pathname))}
-    </ul>
-  );
-}

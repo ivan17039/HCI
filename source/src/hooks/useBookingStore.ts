@@ -1,77 +1,74 @@
-'use client'
-
-import { useEffect, useState } from 'react';
+import { create } from "zustand"
+import { persist, createJSONStorage } from "zustand/middleware"
 
 interface BookingData {
-  startDate: string;
-  endDate: string;
-  guests: number;
+  startDate: string
+  endDate: string
+  guests: number
   selectedRoom?: {
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-  };
+    id: string
+    name: string
+    price: number
+    image: string
+  }
   contactInfo?: {
-    name: string;
-    email: string;
-    phone: string;
-  };
+    name: string
+    email: string
+    phone: string
+  }
 }
 
-const STORAGE_KEY = 'booking_data';
+interface BookingStore {
+  bookingData: BookingData
+  setBookingData: (data: Partial<BookingData>) => void
+  clearSelectedRoom: () => void
+  clearBookingData: () => void
+  isStepCompleted: (step: string) => boolean
+}
 
-export function useBookingStore(urlParams?: {
-  startDate?: string;
-  endDate?: string;
-  guests?: string;
-  room?: string;
-}) {
-  const [bookingData, setBookingData] = useState<BookingData>(() => {
-    if (typeof window !== 'undefined') {
-      const storedData = localStorage.getItem(STORAGE_KEY);
-      return storedData ? JSON.parse(storedData) : {
-        startDate: urlParams?.startDate || '',
-        endDate: urlParams?.endDate || '',
-        guests: urlParams?.guests ? parseInt(urlParams.guests) : 1,
+export const useBookingStore = create<BookingStore>()(
+  persist(
+    (set, get) => ({
+      bookingData: {
+        startDate: "",
+        endDate: "",
+        guests: 1,
         selectedRoom: undefined,
-        contactInfo: undefined
-      };
-    }
-    return {
-      startDate: urlParams?.startDate || '',
-      endDate: urlParams?.endDate || '',
-      guests: urlParams?.guests ? parseInt(urlParams.guests) : 1,
-      selectedRoom: undefined,
-      contactInfo: undefined
-    };
-  });
+        contactInfo: undefined,
+      },
+      setBookingData: (data) => set((state) => ({ bookingData: { ...state.bookingData, ...data } })),
+      clearSelectedRoom: () =>
+        set((state) => ({
+          bookingData: { ...state.bookingData, selectedRoom: undefined },
+        })),
+      clearBookingData: () =>
+        set({
+          bookingData: {
+            startDate: "",
+            endDate: "",
+            guests: 1,
+            selectedRoom: undefined,
+            contactInfo: undefined,
+          },
+        }),
+      isStepCompleted: (step) => {
+        const { bookingData } = get()
+        switch (step) {
+          case "dates":
+            return !!bookingData.startDate && !!bookingData.endDate
+          case "room":
+            return !!bookingData.selectedRoom
+          case "contact":
+            return !!bookingData.contactInfo
+          default:
+            return false
+        }
+      },
+    }),
+    {
+      name: "booking-store",
+      storage: createJSONStorage(() => localStorage),
+    },
+  ),
+)
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookingData));
-  }, [bookingData]);
-
-  const clearSelectedRoom = () => {
-    setBookingData({
-      ...bookingData,
-      selectedRoom: undefined
-    });
-  };
-
-  const clearBookingData = () => {
-    setBookingData({
-      startDate: '',
-      endDate: '',
-      guests: 1,
-      selectedRoom: undefined,
-      contactInfo: undefined
-    });
-  };
-
-  return {
-    bookingData,
-    setBookingData,
-    clearSelectedRoom,
-    clearBookingData
-  };
-}

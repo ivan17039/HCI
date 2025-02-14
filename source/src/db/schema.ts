@@ -17,4 +17,5 @@ export const reservations = pgTable("reservations", {
   contactName: varchar("contact_name", { length: 100 }).notNull(),
   contactEmail: varchar("contact_email", { length: 100 }).notNull(),
   contactPhone: varchar("contact_phone", { length: 20 }).notNull(),
+  status: text("status").notNull().default("pending"), // Dodano
 });

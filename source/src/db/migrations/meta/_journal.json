@@ -15,6 +15,13 @@
       "when": 1737331356458,
       "tag": "0001_short_vivisector",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739053879698,
+      "tag": "0002_chilly_mindworm",
+      "breakpoints": true
     }
   ]
 }

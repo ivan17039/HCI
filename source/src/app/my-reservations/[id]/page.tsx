@@ -57,10 +57,12 @@ export default function ReservationDetails() {
   }
 
   return (
-    <div className="bg-secondary ">
-      <div className="max-w-md mx-auto mt-24 mb-10 p-6 shadow-md rounded-lg text-gray-700 bg-gray-200">
-        <h1 className="text-2xl font-bold mb-4">Reservation Details</h1>
-        <div className="grid grid-cols-2 gap-4">
+    <div className="bg-secondary min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-lg mx-auto mt-16 mb-10 p-6 shadow-md rounded-lg text-gray-700 bg-gray-200">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">
+          Reservation Details
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <p className="font-semibold">Apartment:</p>
             <p>{reservation.apartmentName}</p>
@@ -90,11 +92,17 @@ export default function ReservationDetails() {
             <p>{reservation.contactPhone}</p>
           </div>
         </div>
-        <div className=" flex justify-between  gap-5 mt-2">
-          <Link href={`/my-reservations/${id}/edit`} className="nav-linkbtn">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 mt-4">
+          <Link
+            href={`/my-reservations/${id}/edit`}
+            className="nav-linkbtn w-[95%] ml-3 sm:w-auto text-center"
+          >
             Edit Reservation
           </Link>
-          <Link href="/my-reservations" className="book-navlink">
+          <Link
+            href="/my-reservations"
+            className="book-navlink w-full sm:w-auto text-center"
+          >
             Back to All Reservations
           </Link>
         </div>

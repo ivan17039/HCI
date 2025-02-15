@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-  Button,
   Input,
 } from "../../components/reservation-ui-elements";
 import { BookingCalendar } from "../../../booking/_components/booking-calendar";
@@ -28,6 +27,9 @@ export default function EditReservation() {
   const params = useParams();
   const id = params?.id as string;
   const [reservation, setReservation] = useState<Reservation | null>(null);
+  const [apartmentReservations, setApartmentReservations] = useState<
+    { apartmentId: string; startDate: string; endDate: string }[]
+  >([]);
   const [error, setError] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -39,34 +41,63 @@ export default function EditReservation() {
     }
   }, [id]);
 
+  const fetchReservationsForApartment = async (apartmentId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `/api/reservations?apartmentId=${apartmentId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (!response.ok)
+        throw new Error("Failed to fetch apartment reservations");
+      const data = await response.json();
+
+      // Mapiranje podataka u format koji BookingCalendar očekuje
+      const formattedReservations = data.map((res: any) => ({
+        apartmentId: res.apartmentId,
+        startDate: res.checkInDate,
+        endDate: res.checkOutDate,
+      })) as { apartmentId: string; startDate: string; endDate: string }[];
+
+      setApartmentReservations(formattedReservations);
+    } catch (err) {
+      console.error("Error fetching apartment reservations", err);
+    }
+  };
+
   const fetchReservation = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`/api/reservations/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch reservation");
-      }
-
+      if (!response.ok) throw new Error("Failed to fetch reservation");
       const data = await response.json();
       setReservation(data);
       setStartDate(new Date(data.checkInDate));
       setEndDate(new Date(data.checkOutDate));
       setGuests(data.guests);
+      fetchReservationsForApartment(data.apartmentId);
     } catch (err) {
       setError("Error fetching reservation details");
       console.error(err);
     }
   };
 
+  const handleDateSelect = (date: Date) => {
+    if (!startDate || (startDate && endDate)) {
+      setStartDate(date);
+      setEndDate(null);
+    } else {
+      setEndDate(date);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) return;
-
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`/api/reservations/${id}`, {
@@ -81,86 +112,24 @@ export default function EditReservation() {
           guests,
         }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to update reservation");
-      }
-
+      if (!response.ok) throw new Error("Failed to update reservation");
       router.push(`/my-reservations/${id}`);
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error updating reservation");
-      }
+      setError("Error updating reservation");
       console.error(err);
     }
   };
 
-  const handleDateSelect = (date: Date) => {
-    if (!startDate || (startDate && endDate)) {
-      setStartDate(date);
-      setEndDate(null);
-    } else {
-      setEndDate(date);
-    }
-  };
-
   if (error) {
-    return (
-      <div className="min-h-screen bg-secondary flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent>
-            <p className="text-red-500 text-center">{error}</p>
-            <Button
-              variant="secondary"
-              className="mt-4 w-full"
-              onClick={() => router.push(`/my-reservations/${id}`)}
-            >
-              Back to Reservation Details
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <p className="text-red-500 text-center">{error}</p>;
   }
 
   if (!reservation) {
-    return (
-      <div className="min-h-screen bg-secondary flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent>
-            <p className="text-center">Loading...</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (reservation.status === "confirmed") {
-    return (
-      <div className="min-h-screen bg-secondary flex items-center justify-center">
-        <Card className="w-full max-w-md bg-gray-200 text-red-500">
-          <CardContent>
-            <p className="text-center mb-4">
-              This reservation is confirmed and cannot be modified.{" "}
-              <span className="text-gray-700">Contact us to make changes.</span>
-            </p>
-            <Button
-              className="w-[80%] ml-10 nav-linkbtn"
-              onClick={() => router.push(`/my-reservations/${id}`)}
-            >
-              Back to Reservation Details
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <p className="text-center">Loading...</p>;
   }
 
   return (
-    <div className="min-h-screen bg-secondary flex items-center justify-center">
+    <div className="bg-secondary min-h-screen flex items-center justify-center mt-20">
       <Card className="w-full max-w-lg bg-gray-200">
         <CardHeader>
           <CardTitle>Edit Reservation</CardTitle>
@@ -175,7 +144,7 @@ export default function EditReservation() {
                 selectedStartDate={startDate}
                 selectedEndDate={endDate}
                 onDateSelect={handleDateSelect}
-                reservations={[]}
+                reservations={apartmentReservations}
                 apartment={{
                   id: reservation.apartmentId,
                   name: reservation.apartmentName,

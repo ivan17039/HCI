@@ -164,7 +164,15 @@ export const BookingCalendar = ({
           const isBooked = isDateBooked(day);
           const isSelectable = isDateSelectable(day);
           const isSelected = isDateSelected(day);
-
+          const isPartOfCurrentReservation =
+            selectedStartDate &&
+            selectedEndDate &&
+            (isWithinInterval(day, {
+              start: selectedStartDate,
+              end: selectedEndDate,
+            }) ||
+              isSameDay(day, selectedStartDate) ||
+              isSameDay(day, selectedEndDate));
           return (
             <button
               key={index}
@@ -181,29 +189,38 @@ export const BookingCalendar = ({
               }}
               type="button"
               className={`
-                h-10 w-full flex items-center justify-center text-sm rounded-md
-                transition-colors duration-200
-                ${isBooked ? "bg-red-100 text-red-800 cursor-not-allowed" : ""}
-                ${isSelectable && !isSelected ? "hover:bg-blue-100" : ""}
-                ${isSelected ? "bg-blue-500 text-white hover:bg-blue-600" : ""}
-                ${
-                  !isSelectable && !isBooked
-                    ? "text-gray-400 cursor-not-allowed"
-                    : ""
-                }
-                ${isSelectable && !isSelected ? "text-gray-700" : ""}
-                ${
-                  isSelectable &&
-                  selectedStartDate &&
-                  !selectedEndDate &&
-                  isWithinInterval(day, {
-                    start: selectedStartDate,
-                    end: hoverDate || selectedStartDate,
-                  })
-                    ? "bg-blue-200"
-                    : ""
-                }
-              `}
+                  h-10 w-full flex items-center justify-center text-sm rounded-md
+                  transition-colors duration-200
+                  ${
+                    isBooked ? "bg-red-100 text-red-800 cursor-not-allowed" : ""
+                  }
+                  ${
+                    isPartOfCurrentReservation
+                      ? "bg-red-300 text-white font-bold hover:bg-red-300"
+                      : ""
+                  }
+                  ${isSelectable && !isSelected ? "hover:bg-blue-100" : ""}
+                  ${
+                    isSelected ? "bg-blue-500 text-white hover:bg-blue-600" : ""
+                  }
+                  ${
+                    !isSelectable && !isBooked
+                      ? "text-gray-400 cursor-not-allowed"
+                      : ""
+                  }
+                  ${isSelectable && !isSelected ? "text-gray-700" : ""}
+                  ${
+                    isSelectable &&
+                    selectedStartDate &&
+                    !selectedEndDate &&
+                    isWithinInterval(day, {
+                      start: selectedStartDate,
+                      end: hoverDate || selectedStartDate,
+                    })
+                      ? "bg-blue-200"
+                      : ""
+                  }
+                `}
               disabled={!isSelectable}
             >
               {format(day, "d")}
@@ -219,8 +236,12 @@ export const BookingCalendar = ({
               <span className="text-gray-600">Booked</span>
             </div>
             <div className="flex items-center">
+              <div className="w-4 h-4 rounded-md bg-red-300 text-white font-bold mr-2"></div>
+              <span className="text-gray-600">Currently </span>
+            </div>
+            <div className="flex items-center">
               <div className="w-4 h-4 rounded-md bg-blue-500 mr-2"></div>
-              <span className="text-gray-600">Selected</span>
+              <span className="text-gray-600">Selectable</span>
             </div>
           </div>
         </div>

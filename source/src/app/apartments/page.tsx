@@ -46,7 +46,7 @@ export default function ApartmentsPage() {
         <p className="text-lg text-gray-600 text-center mb-12">
           Choose the perfect accommodation for your unforgettable vacation.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {apartments.map((apartment) => (
             <div
               key={apartment.id}

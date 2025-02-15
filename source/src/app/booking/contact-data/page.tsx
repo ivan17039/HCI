@@ -44,13 +44,14 @@ export default function ContactPage() {
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-6 ">
+              <div className="space-y-2 ">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
                   type="text"
                   id="name"
                   name="name"
+                  className="bg-white"
                   required
                   defaultValue={bookingData.contactInfo?.name}
                 />
@@ -62,6 +63,7 @@ export default function ContactPage() {
                   type="email"
                   id="email"
                   name="email"
+                  className="bg-white"
                   required
                   defaultValue={bookingData.contactInfo?.email}
                 />
@@ -73,6 +75,7 @@ export default function ContactPage() {
                   type="tel"
                   id="phone"
                   name="phone"
+                  className="bg-white"
                   required
                   defaultValue={bookingData.contactInfo?.phone}
                 />

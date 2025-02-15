@@ -21,7 +21,7 @@ export default function BookingLayout({
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className=" bg-secondary">
-        <section className="mt-20 ">
+        <section className="mt-32 ">
           {isBookingFlow && <StepsNav />}
           {children}
           <div className="container max-w-4xl mx-auto px-4 -mb-12 -mt-24">

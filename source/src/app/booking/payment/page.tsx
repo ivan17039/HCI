@@ -162,8 +162,14 @@ export default function PaymentPage() {
                     id="card"
                     name="card"
                     placeholder="1234 5678 9012 3456"
+                    className="bg-white"
                     maxLength={19} // 16 digits + 3 spaces
                     onChange={handleCardNumberInput}
+                    onInput={(e) =>
+                      ((e.target as HTMLInputElement).value = (
+                        e.target as HTMLInputElement
+                      ).value.replace(/[^0-9 ]/g, ""))
+                    }
                     required
                   />
                 </div>
@@ -175,8 +181,14 @@ export default function PaymentPage() {
                       id="expiry"
                       name="expiry"
                       placeholder="MM/YY"
+                      className="bg-white"
                       maxLength={5}
                       onChange={handleExpiryInput}
+                      onInput={(e) =>
+                        ((e.target as HTMLInputElement).value = (
+                          e.target as HTMLInputElement
+                        ).value.replace(/[^0-9/]/g, ""))
+                      }
                       required
                     />
                   </div>
@@ -187,7 +199,13 @@ export default function PaymentPage() {
                       id="cvc"
                       name="cvc"
                       placeholder="123"
+                      className="bg-white"
                       maxLength={3}
+                      onInput={(e) =>
+                        ((e.target as HTMLInputElement).value = (
+                          e.target as HTMLInputElement
+                        ).value.replace(/[^0-9]/g, ""))
+                      }
                       required
                     />
                   </div>

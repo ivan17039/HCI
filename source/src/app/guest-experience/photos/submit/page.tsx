@@ -71,7 +71,7 @@ export default function SubmitPhotoPage() {
             name="authorName"
             required
             placeholder="Enter your name"
-            className="w-full"
+            className="w-full bg-white"
           />
         </div>
 
@@ -81,7 +81,7 @@ export default function SubmitPhotoPage() {
             name="title"
             required
             placeholder="Give your photo a title"
-            className="w-full"
+            className="w-full bg-white"
           />
         </div>
 
@@ -113,7 +113,7 @@ export default function SubmitPhotoPage() {
           <Button
             type="button"
             variant="outline"
-            className="w-full"
+            className="w-full bg-red-500 hover:bg-red-400"
             onClick={() => router.push("/guest-experience/photos")}
           >
             Cancel

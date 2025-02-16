@@ -133,7 +133,7 @@ export default function PaymentPage() {
 
           {showAuthForms ? (
             <div className="bg-white p-6 rounded-lg shadow-lg">
-              <Alert>
+              <Alert className="bg-red-500">
                 <AlertTitle>Authentication Required</AlertTitle>
                 <AlertDescription>
                   Please log in or register to complete your booking.

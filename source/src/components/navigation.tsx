@@ -45,7 +45,7 @@ export function Navigation() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateBlockDimensions);
     };
-  }, []); // Removed isLoggedIn from dependencies
+  }, [isLoggedIn]);
 
   const handleLogout = async () => {
     localStorage.removeItem("token");

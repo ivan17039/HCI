@@ -45,7 +45,7 @@ export function Navigation() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateBlockDimensions);
     };
-  }, [isLoggedIn]);
+  }, []); // Removed isLoggedIn from dependencies
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
@@ -186,7 +186,7 @@ export function Navigation() {
         {isMenuOpen && (
           <ul className="absolute top-0 right-0 w-full bg-blue-50 shadow-lg p-4 space-y-4 customLg:hidden border-2 border-gray-300 rounded-lg text-center">
             <div className="pb-2 border-b border-gray-300 flex justify-between items-center">
-              <div className="flex justify-center w-full ml-10">
+              <div className="flex justify-center w-full">
                 <Link href="/" onClick={() => setIsMenuOpen(false)}>
                   <Logo color="text-logoblue font-bold" />
                 </Link>
@@ -251,7 +251,10 @@ export function Navigation() {
             {isLoggedIn && (
               <li>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
                   className="book-navlinkMobile w-36"
                 >
                   Logout
@@ -260,7 +263,11 @@ export function Navigation() {
             )}
 
             <li className="text-center">
-              <Link href="/booking" className="book-navlinkMobile">
+              <Link
+                href="/booking"
+                className="book-navlinkMobile"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Book Now
               </Link>
             </li>

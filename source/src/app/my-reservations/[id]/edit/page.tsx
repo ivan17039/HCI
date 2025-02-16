@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Card,
   CardHeader,
@@ -119,6 +120,35 @@ export default function EditReservation() {
       console.error(err);
     }
   };
+
+  if (reservation && reservation.status === "confirmed") {
+    return (
+      <div className="min-h-screen bg-secondary flex items-center justify-center">
+        <Card className="w-full max-w-md bg-gray-200 text-red-500">
+          <CardContent>
+            <p className="text-center mb-4">
+              This reservation is confirmed and cannot be modified.{" "}
+              <span className="text-gray-700">Contact us to make changes.</span>
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                className="w-[80%] ml-10 nav-linkbtn"
+                onClick={() => router.push(`/my-reservations/${id}`)}
+              >
+                Back to Reservation Details
+              </button>
+              <Link
+                href="/contact"
+                className="w-[80%] ml-10 nav-linkbtn text-center"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (error) {
     return <p className="text-red-500 text-center">{error}</p>;

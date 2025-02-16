@@ -8,6 +8,7 @@ import { format } from "date-fns";
 
 interface Reservation {
   apartmentId: string;
+  apartmentName: string;
   startDate: string;
   endDate: string;
 }
@@ -45,7 +46,12 @@ export default function BookingForm({
         const response = await fetch("/api/availability");
         if (!response.ok) throw new Error("Failed to fetch reservations");
         const data = await response.json();
-        setAllReservations(data);
+        setAllReservations(
+          data.map((res: any) => ({
+            ...res,
+            apartmentName: res.apartmentName || "Unknown Apartment",
+          }))
+        );
       } catch (error) {
         console.error("Error loading reservations:", error);
         setAllReservations(reservations);

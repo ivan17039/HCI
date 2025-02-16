@@ -19,7 +19,7 @@ interface Apartment {
 }
 
 interface Reservation {
-  apartmentId: string;
+  apartmentName: string;
   startDate: string;
   endDate: string;
 }
@@ -28,7 +28,7 @@ interface BookingCalendarProps {
   selectedStartDate: Date | null;
   selectedEndDate: Date | null;
   onDateSelect: (date: Date) => void;
-  apartment?: Apartment; // Optional - if provided, shows specific apartment availability
+  apartment?: Apartment;
   reservations: Reservation[];
   minDate?: Date;
 }
@@ -68,7 +68,7 @@ export const BookingCalendar = ({
       // Check if there are any bookings between start date and this date
       if (apartment) {
         const relevantReservations = reservations.filter(
-          (r) => r.apartmentId === apartment.id
+          (r) => r.apartmentName === apartment.id
         );
         return !relevantReservations.some((reservation) => {
           const reservationStart = parseISO(reservation.startDate);

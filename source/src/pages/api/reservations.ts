@@ -45,14 +45,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "GET") {
-    // Dohvaćanje rezervacija korisnika
-    const userReservations = await db
+    const { apartmentName } = req.query;
+
+  if (apartmentName) {
+    const apartmentReservations = await db
       .select()
       .from(reservations)
-      .where(eq(reservations.userId, userId))
+      .where(eq(reservations.apartmentName, String(apartmentName))) // Filtrira po apartmentName
       .execute();
 
-    return res.status(200).json(userReservations);
+    return res.status(200).json(apartmentReservations);
+  }
+    // Dohvaćanje rezervacija korisnika
+    const userReservations = await db
+    .select()
+    .from(reservations)
+    .where(eq(reservations.userId, userId))
+    .execute();
+
+  return res.status(200).json(userReservations);
   }
 
   res.setHeader("Allow", ["POST", "GET"]);

@@ -29,8 +29,9 @@ export default function EditReservation() {
   const id = params?.id as string;
   const [reservation, setReservation] = useState<Reservation | null>(null);
   const [apartmentReservations, setApartmentReservations] = useState<
-    { apartmentId: string; startDate: string; endDate: string }[]
+    { apartmentName: string; startDate: string; endDate: string }[]
   >([]);
+
   const [error, setError] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -42,25 +43,31 @@ export default function EditReservation() {
     }
   }, [id]);
 
-  const fetchReservationsForApartment = async (apartmentId: string) => {
+  const fetchReservationsForApartment = async (
+    apartmentName: string,
+    apartmentId: string
+  ) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `/api/reservations?apartmentId=${apartmentId}`,
+        `/api/reservations?apartmentName=${encodeURIComponent(apartmentName)}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       if (!response.ok)
         throw new Error("Failed to fetch apartment reservations");
-      const data = await response.json();
 
-      // Mapiranje podataka u format koji BookingCalendar očekuje
+      const data = await response.json();
+      console.log("Fetched apartment reservations:", data); // Debugging
+
+      // Dodajemo apartmentId u podatke koje šaljemo BookingCalendaru
       const formattedReservations = data.map((res: any) => ({
-        apartmentId: res.apartmentId,
+        apartmentId: apartmentId, // Ručno dodajemo apartmentId jer ga API ne vraća
         startDate: res.checkInDate,
         endDate: res.checkOutDate,
-      })) as { apartmentId: string; startDate: string; endDate: string }[];
+      }));
 
       setApartmentReservations(formattedReservations);
     } catch (err) {
@@ -80,7 +87,7 @@ export default function EditReservation() {
       setStartDate(new Date(data.checkInDate));
       setEndDate(new Date(data.checkOutDate));
       setGuests(data.guests);
-      fetchReservationsForApartment(data.apartmentId);
+      fetchReservationsForApartment(data.apartmentName, data.apartmentId);
     } catch (err) {
       setError("Error fetching reservation details");
       console.error(err);

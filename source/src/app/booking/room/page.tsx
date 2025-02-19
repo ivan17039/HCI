@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
-
+import { CalendarDays } from "lucide-react";
 import { useBookingStore } from "@/hooks/useBookingStore";
 import { apartments } from "@/app/apartments/data/apartments";
 import { checkAvailability } from "@/lib/date-utils";
@@ -113,7 +113,17 @@ export default function RoomSelectionPage() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="grid md:grid-cols-[1fr,400px] gap-8">
         <div>
-          <h1 className="text-3xl font-bold mb-8">Select Your Room</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold">Select Your Room</h1>
+            <Button
+              onClick={() => router.push("/booking/availability")}
+              variant="outline"
+              className="flex items-center gap-2 bg-primary"
+            >
+              <CalendarDays className="h-4 w-4 " />
+              View Full Availability
+            </Button>
+          </div>
           <div className="grid md:grid-cols-2 gap-6">
             {apartments.map((apartment) => {
               const status = getAvailabilityStatus(apartment.id);

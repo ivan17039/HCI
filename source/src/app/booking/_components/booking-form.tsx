@@ -142,6 +142,7 @@ export default function BookingForm({
                   onDateSelect={handleDateSelect}
                   reservations={allReservations}
                   apartment={{ id: apartmentId, name: apartmentName }}
+                  minDate={new Date()}
                 />
               </div>
             )}

@@ -133,7 +133,7 @@ export default function PaymentPage() {
 
           {showAuthForms ? (
             <div className="bg-white p-6 rounded-lg shadow-lg">
-              <Alert className="bg-red-500">
+              <Alert className="bg-red-500 mb-4">
                 <AlertTitle>Authentication Required</AlertTitle>
                 <AlertDescription>
                   Please log in or register to complete your booking.
@@ -141,8 +141,12 @@ export default function PaymentPage() {
               </Alert>
               <Tabs defaultValue="login">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="login">Login</TabsTrigger>
-                  <TabsTrigger value="register">Register</TabsTrigger>
+                  <TabsTrigger value="login" className="rounded-md">
+                    Login
+                  </TabsTrigger>
+                  <TabsTrigger value="register" className="rounded-md">
+                    Register
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="login">
                   <LoginForm onSuccess={handleAuthSuccess} />

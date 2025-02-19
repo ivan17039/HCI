@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -60,11 +62,10 @@ export default function EditReservation() {
         throw new Error("Failed to fetch apartment reservations");
 
       const data = await response.json();
-      console.log("Fetched apartment reservations:", data); // Debugging
+      console.log("Fetched apartment reservations:", data);
 
-      // Dodajemo apartmentId u podatke koje šaljemo BookingCalendaru
       const formattedReservations = data.map((res: any) => ({
-        apartmentId: apartmentId, // Ručno dodajemo apartmentId jer ga API ne vraća
+        apartmentId: apartmentId,
         startDate: res.checkInDate,
         endDate: res.checkOutDate,
       }));
@@ -130,96 +131,113 @@ export default function EditReservation() {
 
   if (reservation && reservation.status === "confirmed") {
     return (
-      <div className="min-h-screen bg-secondary flex items-center justify-center">
-        <Card className="w-full max-w-md bg-gray-200 text-red-500">
-          <CardContent>
-            <p className="text-center mb-4">
-              This reservation is confirmed and cannot be modified.{" "}
-              <span className="text-gray-700">Contact us to make changes.</span>
-            </p>
-            <div className="flex flex-col gap-3">
-              <button
-                className="w-[80%] ml-10 nav-linkbtn"
-                onClick={() => router.push(`/my-reservations/${id}`)}
-              >
-                Back to Reservation Details
-              </button>
-              <Link
-                href="/contact"
-                className="w-[80%] ml-10 nav-linkbtn text-center"
-              >
-                Contact Us
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-secondary p-4 pt-20">
+        <div className="max-w-md mx-auto">
+          <Card className="bg-gray-200">
+            <CardContent className="p-6">
+              <p className="text-center mb-6 text-red-500">
+                This reservation is confirmed and cannot be modified.{" "}
+                <span className="text-gray-700">
+                  Contact us to make changes.
+                </span>
+              </p>
+              <div className="flex flex-col gap-4">
+                <button
+                  className="w-full nav-linkbtn"
+                  onClick={() => router.push(`/my-reservations/${id}`)}
+                >
+                  Back to Reservation Details
+                </button>
+                <Link
+                  href="/contact"
+                  className="w-full nav-linkbtn text-center"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
 
   if (error) {
-    return <p className="text-red-500 text-center">{error}</p>;
+    return (
+      <div className="min-h-screen bg-secondary p-4 pt-20">
+        <p className="text-red-500 text-center">{error}</p>
+      </div>
+    );
   }
 
   if (!reservation) {
-    return <p className="text-center">Loading...</p>;
+    return (
+      <div className="min-h-screen bg-secondary p-4 pt-20">
+        <p className="text-center">Loading...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="bg-secondary min-h-screen flex items-center justify-center mt-20">
-      <Card className="w-full max-w-lg bg-gray-200">
-        <CardHeader>
-          <CardTitle>Edit Reservation</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Dates
-              </label>
-              <BookingCalendar
-                selectedStartDate={startDate}
-                selectedEndDate={endDate}
-                onDateSelect={handleDateSelect}
-                reservations={apartmentReservations}
-                apartment={{
-                  id: reservation.apartmentId,
-                  name: reservation.apartmentName,
-                }}
-                minDate={new Date()}
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="guests"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Number of Guests
-              </label>
-              <Input
-                type="number"
-                id="guests"
-                value={guests}
-                onChange={(e) => setGuests(Number(e.target.value))}
-                min={1}
-                max={10}
-              />
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <button type="submit" className="nav-linkbtn ml-2">
-                Update Reservation
-              </button>
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="book-navlink transition duration-300 ease-in-out"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="min-h-screen bg-secondary p-4 pt-24">
+      <div className="max-w-md mx-auto">
+        <Card className="bg-gray-200">
+          <CardHeader className="p-6">
+            <CardTitle>Edit Reservation</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Dates
+                </label>
+                <div className="rounded-lg overflow-hidden">
+                  <BookingCalendar
+                    selectedStartDate={startDate}
+                    selectedEndDate={endDate}
+                    onDateSelect={handleDateSelect}
+                    reservations={apartmentReservations}
+                    apartment={{
+                      id: reservation.apartmentId,
+                      name: reservation.apartmentName,
+                    }}
+                    minDate={new Date()}
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="guests"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Number of Guests
+                </label>
+                <Input
+                  type="number"
+                  id="guests"
+                  value={guests}
+                  onChange={(e) => setGuests(Number(e.target.value))}
+                  min={1}
+                  max={10}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button type="submit" className="w-full nav-linkbtn">
+                  Update Reservation
+                </button>
+                <button
+                  type="button"
+                  onClick={() => router.back()}
+                  className="w-full book-navlink transition duration-300 ease-in-out"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

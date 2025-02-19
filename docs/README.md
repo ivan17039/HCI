@@ -1,11 +1,11 @@
 # 🏡 Apartment Rental Web Application
 
-## 📖 Project Overview
+# 📖 Project Overview
 
 This is a **Next.js-based apartment rental web application** that allows users to explore available apartments, check availability, make reservations, and leave reviews. The project ensures a fully responsive and interactive experience.
 This report summarizes the development process and features of a responsive apartment rental website landing page, created as part of a multi-part assignment. The project involved creating low and high-fidelity prototypes, coding a fully responsive page, and implementing dynamic functionality based on user login.The project ensures a fully responsive and interactive experience. The development was completed in multiple stages:
 
-## 📂 Assignment Overview
+# 📂 Assignment Overview
 
 **1. Figma Essentials:** Initial design phase focusing on creating wireframes and visual designs using Figma, establishing the foundation for the project's visual language and user interface elements.
 
@@ -52,7 +52,7 @@ This report summarizes the development process and features of a responsive apar
   - Dynamic content based on user authentication
   - Integration of all previous components into a cohesive whole
 
-## 🚀 Features
+# 🚀 Features
 
 - **Apartment Listings:** View different apartments with amenities, gallery, and pricing details.
 - **Availability Check:** Users can see booked dates and available periods.
@@ -64,7 +64,7 @@ This report summarizes the development process and features of a responsive apar
 - **CMS Integration:** Guest reviews and photos managed via Contentful CMS.
 - **API Endpoints:** Dynamic backend operations for availability checks, login, and reservations.
 
-## 🛠️ Technologies Used
+# 🛠️ Technologies Used
 
 **Frontend:**
 
@@ -90,25 +90,81 @@ This report summarizes the development process and features of a responsive apar
 
 **Deployment:** Hosted on **Vercel** for fast and reliable performance
 
-## 🔍 Key API Endpoints
+Here's the content formatted in Markdown (.md) format with the items under each heading indented and numbered:
 
-- `/pages/api/availability.ts`: Retrieves apartment availability data.
-- `/pages/api/check-availability.ts`: Checks real-time availability for selected dates.
-- `/pages/api/login.ts`: Handles user login authentication.
-- `/pages/api/register.ts`: Handles user registration.
-- `/pages/api/reservations.ts`: Manages user reservations (creation, retrieval, updates).
+# 🎨 Basic Design Principles
 
-- `/pages/api/reservations/[id].ts` – Fetches or updates a specific reservation. Users can:
+Throughout our project, we applied several basic design principles to enhance user experience and interface design:
 
-  - `GET` – Retrieve details of a specific reservation.
+1. Maintained a uniform color scheme, typography, and button styles across all pages.
 
-  - `PUT` – Update reservation details, provided it is not confirmed.
+2. Used size and color emphasis for important elements like headings and call-to-action buttons.
+3. Ensured readability through distinct text and background contrasts.
+4. Structured layout with clear alignment of form elements, buttons, and text.
+5. Grouped related elements together, such as labels with their input fields.
 
-## 🔍 Analyze the application's performance ⚡
+# 🧠 Norman's 7 Strategies
+
+We incorporated Donald Norman's 7 principles of design in the following ways:
+
+1. Discoverability: Navigation elements and form inputs are easily visible and labeled.
+
+2. Feedback: Buttons provide hover states to indicate interactivity.
+3. Conceptual Model: Layout follows common web conventions, making it intuitive.
+4. Affordances: Buttons appear clickable, and input fields are clearly editable.
+5. Signifiers: Labels and placeholders guide users through form fields.
+6. Mappings: Logical ordering of form fields aligns with users' expectations.
+7. Constraints: Required fields prevent errors and guide users towards successful input.
+
+# 🔍 Heuristic Evaluation
+
+Applying Nielsen's heuristics, we evaluated our design as follows:
+
+1. Visibility of System Status: The active page is highlighted in the navigation.
+
+2. Match Between System and Real World: Uses familiar terms like "Book Now" and "Reservations".
+3. User Control and Freedom: Users can navigate freely and modify their bookings.
+4. Consistency and Standards: Maintains consistent UI patterns across pages.
+5. Error Prevention: Input validation helps prevent user errors.
+6. Recognition Rather Than Recall: Labels and placeholders reduce cognitive load.
+7. Flexibility and Efficiency of Use: Navigation provides quick access to key sections.
+8. Aesthetic and Minimalist Design: Focuses on clarity and simplicity.
+9. Help Users Recognize, Diagnose, and Recover from Errors: Clear error messages guide users.
+10. Help and Documentation: Key sections provide guidance on using the site.
+
+You're right, and I understand now that you want the bullet points indented further to the right. Here's the corrected version with the bullet points indented:
+
+Ah, I see now. You want the sub-points to be numbered instead of using bullet points, and you want them indented. Here's the corrected version that matches your example:
+
+# 🔎 C.R.A.P. Principles
+
+We applied the C.R.A.P. (Contrast, Repetition, Alignment, Proximity) principles as follows:
+
+**1. Contrast:**
+
+- Used distinct text/background colors.
+- Applied different font weights for headings.
+
+**2. Repetition:**
+
+- Consistent button styles across pages.
+- Maintained a uniform layout structure.
+
+**3. Alignment:**
+
+- Left-aligned form labels and input fields.
+- Centered form containers for clarity.
+
+**4. Proximity:**
+
+- Grouped related elements closely.
+- Navigation items kept together in the header.
+
+# ⚡ Analyze the application's performance
 
 [PageSpeed Insights](https://pagespeed.web.dev/analysis/https-hci-zj6c-vercel-app/7g1o244vlx?form_factor=desktop)
 
-## 📝 Future Improvements
+# 📝 Future Improvements
 
 - [ ] Online Payment Integration
 
@@ -128,6 +184,6 @@ This report summarizes the development process and features of a responsive apar
   - Send email confirmations after booking.
   - Implement push notifications for booking reminders.
 
-## 🏆 Conclusion 🎉
+# 🏆 Conclusion 🎉
 
 This project successfully delivered a fully functional and responsive landing page with integrated backend functionality. The use of various technologies and a focus on the booking process resulted in a robust and user-friendly application. The architecture is scalable and adaptable for future expansion, including server-side data fetching and additional features.
